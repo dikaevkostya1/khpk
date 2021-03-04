@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index')->name('home');
+Route::get('/ajax/filter', 'HomeController@filter');
+
+Route::match(['get', 'post'], '/request', 'RequestController@index')->name('request');
