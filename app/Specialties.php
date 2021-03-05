@@ -9,7 +9,9 @@ class Specialties extends Model
     protected $table = 'specialties';
 
     protected $hidden = [
-        'finansing_id'
+        'finansing_id',
+        'institution_id',
+        'format_id'
     ];
 
 }

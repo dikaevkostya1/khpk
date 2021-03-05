@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Specialties;
-use Facade\FlareClient\View;
+use App\Feedback;
+use Throwable;
 
 class HomeController extends Controller
 {
@@ -30,6 +31,23 @@ class HomeController extends Controller
 
     public function filter() {
         return view('ajax.home.specialties', $this->specialties);
+    }
+
+    public function feedback(Request $request) {
+        try {
+            $feedback = Feedback::create([
+                'name' => $request->name,
+                'phone' => $request->phone,
+                'mail' => $request->mail,
+                'message' => $request->message,
+                'institution_id' => 1
+            ]);
+            $feedback->save();
+            return 'Успешно отправлено';
+        }
+        catch (Throwable $e) {
+            return 'Произошла ошибка';
+        }
     }
 
 }

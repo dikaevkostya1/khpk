@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::post('/feedback', 'HomeController@feedback');
 Route::get('/ajax/filter', 'HomeController@filter');
 
 Route::match(['get', 'post'], '/request', 'RequestController@index')->name('request');
