@@ -18,7 +18,7 @@ class CreateAdminUsersTable extends Migration
             $table->string('name');
             $table->string('login')->unique();
             $table->string('password');
-            $table->integer('privileges_id')->unsigned()->default(1);
+            $table->integer('privileges_id')->unsigned();
             $table->integer('institution_id')->unsigned();
             $table->rememberToken();
             $table->timestamps();

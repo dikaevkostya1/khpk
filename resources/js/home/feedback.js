@@ -1,10 +1,10 @@
 $(function() {
     $('#feedback form').submit(() => {
         $.post(
-            '/feedback',
+            '/ajax/feedback',
             $('#feedback form').serialize(),
             function(msg) {
-                $("#feedback form").trigger('reset');
+                $("#feedback form").find('input').val('');
                 $('#feedback .message').html(msg);
             }
         );

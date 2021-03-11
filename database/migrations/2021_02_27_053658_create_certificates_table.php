@@ -17,7 +17,7 @@ class CreateCertificatesTable extends Migration
             $table->id();
             $table->string('subject');
             $table->tinyInteger('evaluation');
-            $table->integer('enrolle_id')->unsigned()->default(1);
+            $table->integer('enrolle_id')->unsigned();
             $table->timestamps();
         });
     }

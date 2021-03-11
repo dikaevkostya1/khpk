@@ -14,7 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'HomeController@index')->name('home');
-Route::post('/feedback', 'HomeController@feedback');
+Route::post('/ajax/feedback', 'HomeController@feedback');
 Route::get('/ajax/filter', 'HomeController@filter');
 
-Route::match(['get', 'post'], '/request', 'RequestController@index')->name('request');
+Route::get('/request', 'RequestController@index');
+
+Route::get('/request/enrolle', 'EnrolleController@index')->name('enrolle');
+Route::post('/ajax/request/enrolle', 'EnrolleController@enrolle');
+Route::get('/request/enrolle/email/verified', 'EnrolleController@email_verified_show')->name('email_verified');

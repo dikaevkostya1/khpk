@@ -18,7 +18,7 @@ class CreateRequestTable extends Migration
             $table->integer('enrolle_id')->unsigned();
             $table->integer('speciality_id')->unsigned();
             $table->string('path_documents');
-            $table->integer('status_id')->unsigned()->default(1);
+            $table->integer('status_id')->unsigned();
             $table->integer('institution_id')->unsigned();
             $table->timestamps();
         });

@@ -81,23 +81,35 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./resources/js/home/feedback.js":
-/*!***************************************!*\
-  !*** ./resources/js/home/feedback.js ***!
-  \***************************************/
+/***/ "./resources/js/request/enrolle.js":
+/*!*****************************************!*\
+  !*** ./resources/js/request/enrolle.js ***!
+  \*****************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
 $(function () {
-  $('#feedback form').submit(function () {
-    $.post('/ajax/feedback', $('#feedback form').serialize(), function (msg) {
-      $("#feedback form").find('input').val('');
-      $('#feedback .message').html(msg);
+  var form = $('#request form');
+  form.submit(function () {
+    $.ajax({
+      type: "POST",
+      url: '/ajax/request/enrolle',
+      data: form.serialize(),
+      success: function success(data) {
+        $('#request').html(data.view);
+      },
+      error: function error(response) {
+        var data = response.responseJSON.errors;
+        $('#request .message').html('');
+        $.each(data, function (key, value) {
+          $('#request .message').append('<p>' + value + '</p>');
+        });
+      }
     });
     return false;
   });
@@ -105,14 +117,14 @@ $(function () {
 
 /***/ }),
 
-/***/ 1:
-/*!*********************************************!*\
-  !*** multi ./resources/js/home/feedback.js ***!
-  \*********************************************/
+/***/ 2:
+/*!***********************************************!*\
+  !*** multi ./resources/js/request/enrolle.js ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/kostya/sites/khpk/resources/js/home/feedback.js */"./resources/js/home/feedback.js");
+module.exports = __webpack_require__(/*! /Users/kostya/sites/khpk/resources/js/request/enrolle.js */"./resources/js/request/enrolle.js");
 
 
 /***/ })

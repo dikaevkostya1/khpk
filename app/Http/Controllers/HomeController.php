@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Specialties;
 use App\Feedback;
+use App\Institutions;
 use Throwable;
 
 class HomeController extends Controller
@@ -19,14 +20,20 @@ class HomeController extends Controller
         $specialties->when(request('format', 1), function ($q, $filter) {
             return $q->where('format_id', $filter);
         });
-        $specialties = [
+        $specialties->when(request('institution', 1), function ($q, $filter) {
+            return $q->where('institution_id', $filter);
+        });
+        $this->specialties = [
             'specialties' => $specialties->get()
         ];
-        $this->specialties = $specialties;
     }
 
     public function index() {
-        return view('home', $this->specialties);
+        $institutions = [
+            'institutions' => Institutions::all()
+        ];
+        $data = array_merge($institutions, $this->specialties);
+        return view('home', $data);
     }
 
     public function filter() {
@@ -40,13 +47,13 @@ class HomeController extends Controller
                 'phone' => $request->phone,
                 'mail' => $request->mail,
                 'message' => $request->message,
-                'institution_id' => 1
+                'institution_id' => request('institutions', 1)
             ]);
             $feedback->save();
             return 'Успешно отправлено';
         }
         catch (Throwable $e) {
-            return 'Произошла ошибка';
+            return 'Произошла ошибка на сервере';
         }
     }
 
