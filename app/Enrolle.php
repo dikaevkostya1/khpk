@@ -2,11 +2,16 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Enrolle extends Model
+class Enrolle extends Authenticatable
 {
+
+    use Notifiable;
+
+    protected $guard = 'users';
+
     protected $table = 'enrolle';
 
     protected $guarded = [];
@@ -19,11 +24,13 @@ class Enrolle extends Model
     ];
 
     protected $attributes = [
-        'email_verified_at' => false
+        'email_verified' => false
     ];
 
     protected $hidden = [
+        'password',
         'education_id',
-        'institution_id'
+        'institution_id',
+        'remember_token',
     ];
 }

@@ -1,13 +1,13 @@
-<form method="post">
-    @csrf
-    <input type="file">
-    <input type="text" placeholder="Дата рождения">
-    <input type="text" placeholder="Адрес проживания">
-        <input type="text" placeholder="Номер телефона">
-        <input type="text" placeholder="Год окончания">
-        <input type="text" placeholder="Логин">
-        <input type="text" placeholder="E-mail">
-        <input type="password" placeholder="Пароль">
-        <input type="password" placeholder="Подтверждение пароля">
-        <input type="submit" value="Продолжить">
-</form>
+<section id="request">
+    <form method="post">
+        @csrf
+        <select name="specialties_id">
+            @foreach ($specialties as $specialty)
+                <option value="{{ $specialty->id }}" {{ $specialty->select }}>{{ $specialty->name }}</option>
+            @endforeach
+        </select>
+        <input type="file" name="documents">
+        <div class="message"></div>
+    </form>
+</section>
+<script src="/js/request.js"></script>

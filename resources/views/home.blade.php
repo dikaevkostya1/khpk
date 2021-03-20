@@ -7,17 +7,10 @@
     @section('nav')
         <a href="http:/khpk.ru">Основной сайт</a>
         <a href="">Прием</a>
-        <a href="">Личный кабинет</a>
+        <a href="/login">Личный кабинет</a>
         <a href="">Контакты</a>
     @endsection
-    <form action="/" method="get">
-        <select name="institution">
-            @foreach ($institutions as $institution)
-                <option value="{{ $institution->id }}">{{ $institution->name }}</option>
-            @endforeach
-        </select>
-    </form>
-    <a href="/request/enrolle">Подать заявку</a>
+    <a href="/request">Подать заявку</a>
 @endsection
 @section('content')
 <section>
@@ -26,7 +19,7 @@
         @csrf
         <input type="text" placeholder="Ваше Имя" name="name">
         <input type="text" placeholder="Ваша Фамилия" name="surname">
-        <select name="specialties">
+        <select name="specialty">
             @foreach ($specialties as $specialty)
                 <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
             @endforeach

@@ -18,5 +18,6 @@
     <footer>
         @include('layouts.footer')
     </footer>
+    @stack('scripts_after')
 </body>
 </html>

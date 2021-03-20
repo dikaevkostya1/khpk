@@ -36,8 +36,10 @@ class HomeController extends Controller
         return view('home', $data);
     }
 
-    public function filter() {
-        return view('ajax.home.specialties', $this->specialties);
+    public function ajax_specialties() {
+        return response()->json([
+            'view' => view('ajax.home.specialties', $this->specialties)->render()
+        ], 200);
     }
 
     public function feedback(Request $request) {

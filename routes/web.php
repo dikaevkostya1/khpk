@@ -13,12 +13,38 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'HomeController@index')->name('home');
+// главная страница
+Route::get('/', 'HomeController@index')->name('home'); 
 Route::post('/ajax/feedback', 'HomeController@feedback');
-Route::get('/ajax/filter', 'HomeController@filter');
+// главная страница
 
-Route::get('/request', 'RequestController@index');
+// страница отправки заявки
+Route::match(['get', 'post'], '/request', 'RequestController@index')->name('request');
+Route::post('/request/push', 'RequestController@push');
+Route::prefix('request/verify')->group(function () {
+    Route::view('/change', 'change_mail')->middleware('auth'); 
+    Route::post('/change', 'ChangeMailController');
+    Route::get('/code', 'CodeSendMailController');
+});
+// страница отправки заявки
 
-Route::get('/request/enrolle', 'EnrolleController@index')->name('enrolle');
-Route::post('/ajax/request/enrolle', 'EnrolleController@enrolle');
-Route::get('/request/enrolle/email/verified', 'EnrolleController@email_verified_show')->name('email_verified');
+// страница входа 
+Route::get('/login', 'LoginEnrolleController@index')->name('login');
+Route::prefix('login/enrolle')->group(function () {
+    Route::post('', 'LoginEnrolleController@login');
+    Route::post('/reset/password', 'LoginEnrolleResetPasswortController@push');
+    Route::view('/reset/password', 'reset_password_token')->name('reset_password_view');
+    Route::get('/reset/password/{token}', 'LoginEnrolleResetPasswortController@auth')->name('reset_password');
+    Route::post('/reset/password/{token}', 'LoginEnrolleResetPasswortController@reset');
+});
+Route::get('/logout/enrolle', 'LoginEnrolleController@logout')->middleware('auth');
+// страница входа
+
+// страница входа администратора
+Route::get('/admin', 'LoginAdminController@index')->name('login_admin');
+Route::post('/login/admin', 'LoginAdminController@enrolle');
+// страница входа администратора
+
+// странца личного кабинета
+Route::get('/rating', 'RatingController@index')->name('rating');
+// странца личного кабинета

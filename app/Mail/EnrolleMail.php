@@ -30,6 +30,9 @@ class EnrolleMail extends Mailable
      */
     public function build()
     {
-        return $this->from('khpk19@gmail.com', 'Хакасский политехнический колледж')->view('emails.enrolle')->with($this->enrolle);
+        return $this->from('khpk19@gmail.com', 'Хакасский политехнический колледж')
+                    ->subject('Подтверждение регистрации')
+                    ->view('emails.enrolle')
+                    ->with($this->enrolle);
     }
 }
