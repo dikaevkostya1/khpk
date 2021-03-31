@@ -8,8 +8,6 @@ class Specialties extends Model
 {
     protected $table = 'specialties';
 
-    protected $guarded = [];
-
     protected $hidden = [
         'finansing_id',
         'institution_id',

@@ -4,8 +4,8 @@
 <section id="request">
     <form method="post">
         @csrf
-        <input type="text" placeholder="Новый пароль" name="password">
-        <input type="text" placeholder="Подтверждение пароля">
+        <input type="password" placeholder="Новый пароль" name="password">
+        <input type="password" placeholder="Подтверждение пароля">
         <input type="submit" value="Продолжить">
     </form>
 </section>

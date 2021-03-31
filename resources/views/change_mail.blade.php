@@ -8,7 +8,7 @@
 <section id="request">
     <form method="post" action="/request/verify/change">
         @csrf
-        <input type="text" placeholder="Новый e-mail" name="mail">
+        <input type="text" placeholder="Новый email" name="mail">
         <input type="submit" value="Продолжить">
     </form>
     @if ($errors->all())

@@ -1,12 +1,12 @@
 @extends('layouts.app')
-@section('title', 'Личный кабинет')
+@section('title', 'Вход')
 @section('content')
-<section id="request">
+<section>
     <form method="post" action="/login/enrolle">
         @csrf
-        <input type="text" placeholder="Логин или e-mail" name="login">
+        <input type="text" placeholder="Логин или email" name="login">
         <input type="password" placeholder="Пароль" name="password">
-        <input type="submit" value="Продолжить">
+        <input type="submit" value="Войти">
     </form>
     <a href="/login/enrolle/reset/password">Забыли пароль?</a>
     @if ($errors->all())
@@ -16,5 +16,14 @@
             @endforeach
         </div>
     @endif
+</section>
+<section>
+    <h1>Еще не регистрировались?</h1>
+    <form action="/request" method="post">
+        @csrf
+        <input type="text" placeholder="Ваше имя" name="name">
+        <input type="text" placeholder="Ваша фамилия" name="surname">
+        <input type="submit" value="Продолжить">
+    </form>
 </section>
 @endsection

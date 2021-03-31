@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Throwable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -16,6 +15,8 @@ use App\Specialties;
 use App\Institutions;
 use App\Enrolle;
 use App\Mail\EnrolleMail;
+use Carbon\Carbon;
+use Illuminate\Validation\Rule;
 
 class RequestController extends Controller
 {
@@ -30,15 +31,9 @@ class RequestController extends Controller
     public function index(Request $request) {
         if (Auth::check()) {
             if (Auth::user()->email_verified == true) {
-                $specialties = $this->specialties;
-                if ($request->session()->has('specialty_select')) {
-                    $id = array_search($request->session('specialty_select'), $specialties->toArray());
-                    Arr::add($specialties[$id], 'select', 'select');
-                } 
                 $data = [
-                    'specialties' => $specialties,
-                    'institutions' => Institutions::all(),
-                    'specialties_select' => session('specialties_select'),
+                    'specialties' => $this->specialties,
+                    'institutions' => Institutions::all(), 
                     'request_stage' => 3
                 ];
             }
@@ -50,10 +45,10 @@ class RequestController extends Controller
             $data = [
                 'name' => $request->name,
                 'surname' => $request->surname,
+                'mail' => $request->mail,
                 'educations' => Educations::all(),
                 'request_stage' => 1
             ];
-            session(['specialty_select' => $request->specialty]);
         }
         return view('request', $data);
     }
@@ -84,27 +79,27 @@ class RequestController extends Controller
             ], 400);
         }
         else {
-            $enrolle = Enrolle::create([
-                'full_name' => $request->surname.' '.$request->name.' '.$request->middlename,
-                'address_actual' => $request->address_actual,
-                'address_registration' => $request->address_registration,
-                'phone' => $request->phone,
-                'date_born' => $request->date_born,
-                'place_born' => $request->place_born,
-                'passport' => $request->passport,
-                'passport_date' => $request->passport_date,
-                'passport_issued' => $request->passport_issued,
-                'education_id' => $request->education_id,
-                'education_ending' => $request->education_ending,
-                'education_name' => $request->education_name,
-                'education' => $request->education,
-                'login' => $request->login,
-                'mail' => $request->mail,
-                'password' => Hash::make($request->password),
-                'remember_token' => Hash::make(Str::random(5)),
-                'email_verified_code' => random_int(1000, 9999)
-            ]);
             try {
+                $enrolle = Enrolle::create([
+                    'full_name' => $request->surname.' '.$request->name.' '.$request->middlename,
+                    'address_actual' => $request->address_actual,
+                    'address_registration' => $request->address_registration,
+                    'phone' => $request->phone,
+                    'date_born' => Carbon::parse($request->date_born)->format('Y-m-d'),
+                    'place_born' => $request->place_born,
+                    'passport' => $request->passport,
+                    'passport_date' => Carbon::parse($request->passport_date)->format('Y-m-d'),
+                    'passport_issued' => $request->passport_issued,
+                    'education_id' => $request->education_id,
+                    'education_ending' => $request->education_ending,
+                    'education_name' => $request->education_name,
+                    'education' => $request->education,
+                    'login' => $request->login,
+                    'mail' => $request->mail,
+                    'password' => Hash::make($request->password),
+                    'remember_token' => Hash::make(Str::random(5)),
+                    'email_verified_code' => random_int(1000, 9999)
+                ]);
                 $enrolle->save();
                 $data = [
                     'name' => $enrolle->full_name,
@@ -119,7 +114,7 @@ class RequestController extends Controller
             }
             catch (Throwable $e) {
                 return response()->json([
-                    'errors' => ['Произошла ошибка на сервере']
+                    'errors' => ['Произошла ошибка на сервере'.$e]
                 ], 500);
             }
         }
@@ -127,7 +122,7 @@ class RequestController extends Controller
 
     private function email_verified(Request $request) {
         try {
-            if ($request->code == Auth::user()->email_verified_code) {
+            if (Auth::user()->email_verified_code === $request->code) {
                 Auth::user()->email_verified = true;
                 Auth::user()->save();
                 return response()->json([
@@ -150,11 +145,41 @@ class RequestController extends Controller
     }
 
     private function request(Request $request) {
-        $request = Requests::create([
-            'enrolle_id' => Auth::user()->id,
-            'speciality_id' => $request->speciality_id,
-            'path_document' => $request->file('documents')->store('documents'),
-            'institution_id' => request('institution', 1)
-        ]);
+        $messages = [
+            'speciality_id.unique' => 'Вы уже подали заявку на эту специальность',
+            'documents.required' => 'Загрузите файл'
+        ];
+        $rules = [ 
+            'speciality_id' => Rule::unique('requests')->where(function ($query) {
+                return $query->where('enrolle_id', Auth::user()->id);
+            }),
+            'documents' => 'required'
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all()
+            ], 400);
+        }
+        else {
+            try {
+                $request = Requests::create([
+                    'enrolle_id' => Auth::user()->id,
+                    'speciality_id' => $request->speciality_id,
+                    'path_documents' => $request->file('documents')->store('documents'),
+                    'institution_id' => request('institution', 1)
+                ]);
+                $request->save();
+                return response()->json([
+                    'redirect' => true,
+                    'redirect_url' => route('rating')
+                ]);
+            }
+            catch (Throwable $e) {
+                return response()->json([
+                    'errors' => ['Произошла ошибка на сервере'.$e]
+                ], 500);
+            }
+        }
     }
 }

@@ -34,14 +34,14 @@ class LoginEnrolleResetPasswortController extends Controller
         ]);
     }
 
-    public function auth(Request $request) {
-        $enrolle = $this->validToken($request->token);
+    public function auth($token) {
+        $enrolle = $this->validToken($token);
         if ($enrolle) return view('reset_password');
         else return redirect()->route('home');
     }
 
-    public function reset(Request $request) {
-        $enrolle = $this->validToken($request->token);
+    public function reset(Request $request, $token) {
+        $enrolle = $this->validToken($token);
         if ($enrolle) {
             $enrolle->password = Hash::make($request->password);
             $enrolle->save();
@@ -52,7 +52,7 @@ class LoginEnrolleResetPasswortController extends Controller
 
     private function validToken($token) {
         return Enrolle::where('remember_token', $token)
-        ->where('created_at', '>', Carbon::parse('-10 minutes'))
+        ->where('updated_at', '>', Carbon::parse('-10 minutes'))
         ->first();
     }
 }

@@ -11,5 +11,6 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js');
-mix.js('resources/js/request/request.js', 'public/js');
+mix.js('resources/js/app.js', 'public/js').version();
+mix.js('resources/js/request/request.js', 'public/js').version();
+mix.js('resources/js/home/feedback.js', 'public/js').version();

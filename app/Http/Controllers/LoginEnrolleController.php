@@ -19,7 +19,7 @@ class LoginEnrolleController extends Controller
         }
         else {
             $rule = [
-                'message' => 'Неправильный логин (e-mail) или пароль'
+                'message' => 'Неправильный логин (email) или пароль'
             ];
             return redirect()->back()->withInput()->withErrors($rule);
         }

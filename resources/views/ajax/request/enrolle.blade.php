@@ -4,7 +4,7 @@
         <h3>Основные данные</h3>
         <input type="text" placeholder="Имя" value="{{ $name }}" name="name">
         <input type="text" placeholder="Фамилия" value="{{ $surname }}" name="surname">
-        <input type="text" placeholder="Отчество" name="middlename">
+        <input type="text" placeholder="Отчество (если есть)" name="middlename">
         <input type="text" placeholder="Дата рождения" name="date_born">
         <input type="text" placeholder="Место рождения" name="place_born">
         <input type="text" placeholder="Адрес регистрации" name="address_registration">
@@ -15,7 +15,7 @@
         <input type="text" placeholder="Кем выдан" name="passport_issued">
         <h3>Контактные данные</h3>
         <input type="text" placeholder="Номер телефона" name="phone">
-        <input type="text" placeholder="E-mail" name="mail">
+        <input type="text" placeholder="Email" value="{{ $mail }}" name="mail">
         <h3>Образование</h3>
         <input type="text" placeholder="Наименование учреждения" name="education_name">
         <input type="text" placeholder="Год окончания" name="education_ending">
@@ -33,4 +33,4 @@
     </form>
     <div class="message"></div>
 </section>
-<script src="/js/request.js"></script>
+<script src="{{ mix('/js/request.js') }}"></script>

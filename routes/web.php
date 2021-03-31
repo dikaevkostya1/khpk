@@ -34,17 +34,22 @@ Route::prefix('login/enrolle')->group(function () {
     Route::post('', 'LoginEnrolleController@login');
     Route::post('/reset/password', 'LoginEnrolleResetPasswortController@push');
     Route::view('/reset/password', 'reset_password_token')->name('reset_password_view');
-    Route::get('/reset/password/{token}', 'LoginEnrolleResetPasswortController@auth')->name('reset_password');
-    Route::post('/reset/password/{token}', 'LoginEnrolleResetPasswortController@reset');
+    Route::get('/reset/password/{token}', 'LoginEnrolleResetPasswortController@auth')->where('token', '.*')->name('reset_password');
+    Route::post('/reset/password/{token}', 'LoginEnrolleResetPasswortController@reset')->where('token', '.*');
 });
-Route::get('/logout/enrolle', 'LoginEnrolleController@logout')->middleware('auth');
+Route::get('/logout/enrolle', 'LoginEnrolleController@logout');
 // страница входа
-
-// страница входа администратора
-Route::get('/admin', 'LoginAdminController@index')->name('login_admin');
-Route::post('/login/admin', 'LoginAdminController@enrolle');
-// страница входа администратора
 
 // странца личного кабинета
 Route::get('/rating', 'RatingController@index')->name('rating');
+Route::get('/rating/request/delete/{id}', 'RatingController@request_delete');
 // странца личного кабинета
+
+// страница входа администратора
+Route::get('/login/admin', 'LoginAdminController@index')->name('login_admin');
+Route::post('/login/admin', 'LoginAdminController@login');
+Route::get('/logout/admin', 'LoginAdminController@logout');
+// страница входа администратора
+
+// страница панели администратора
+Route::get('/admin', 'AdminPanelController@index')->name('admin');

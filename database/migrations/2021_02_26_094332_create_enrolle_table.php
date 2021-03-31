@@ -32,7 +32,7 @@ class CreateEnrolleTable extends Migration
             $table->string('mail')->unique();
             $table->string('password');
             $table->boolean('email_verified');
-            $table->integer('email_verified_code');
+            $table->string('email_verified_code');
             $table->rememberToken();
             $table->timestamps();
         });

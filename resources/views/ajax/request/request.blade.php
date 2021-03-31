@@ -1,13 +1,14 @@
 <section id="request">
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         @csrf
-        <select name="specialties_id">
+        <select name="speciality_id">
             @foreach ($specialties as $specialty)
-                <option value="{{ $specialty->id }}" {{ $specialty->select }}>{{ $specialty->name }}</option>
+                <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
             @endforeach
         </select>
         <input type="file" name="documents">
-        <div class="message"></div>
+        <input type="submit" value="Отправить">
     </form>
+    <div class="message"></div>
 </section>
-<script src="/js/request.js"></script>
+<script src="{{ mix('/js/request.js') }}"></script>

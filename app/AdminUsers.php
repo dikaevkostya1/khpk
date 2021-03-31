@@ -5,14 +5,13 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Enrolle extends Authenticatable
+class AdminUsers extends Authenticatable
 {
-
     use Notifiable;
 
-    protected $guard = 'users';
+    protected $guard = 'admin';
 
-    protected $table = 'enrolle';
+    protected $table = 'admin_users';
 
     protected $guarded = [];
 
@@ -22,9 +21,7 @@ class Enrolle extends Authenticatable
 
     protected $hidden = [
         'password',
-        'education_id',
         'institution_id',
         'remember_token',
     ];
-    
 }

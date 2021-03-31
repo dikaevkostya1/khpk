@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -96,7 +96,7 @@
 $(function () {
   $('#feedback form').submit(function () {
     $.post('/ajax/feedback', $('#feedback form').serialize(), function (msg) {
-      $("#feedback form").find('input').val('');
+      $("#feedback form").find('.input').val('');
       $('#feedback .message').html(msg);
     });
     return false;
@@ -105,7 +105,7 @@ $(function () {
 
 /***/ }),
 
-/***/ 1:
+/***/ 2:
 /*!*********************************************!*\
   !*** multi ./resources/js/home/feedback.js ***!
   \*********************************************/

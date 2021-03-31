@@ -95,13 +95,17 @@
 
 $(function () {
   var form = $('#request form');
-  $('main').on('submit', form, function () {
+  form.on('submit', function (e) {
+    e.preventDefault();
     $.ajax({
       type: "POST",
       url: '/request/push',
-      data: form.serialize(),
+      enctype: 'multipart/form-data',
+      data: new FormData(this),
+      processData: false,
+      contentType: false,
       success: function success(data) {
-        $('main').html(data.view);
+        if (data.redirect == true) window.location.replace(data.redirect_url);else $('main').html(data.view);
       },
       error: function error(response) {
         var data = response.responseJSON.errors;

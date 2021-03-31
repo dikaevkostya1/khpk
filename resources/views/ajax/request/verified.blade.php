@@ -8,4 +8,4 @@
     <a href="/request/verify/code">Отправить повторно</a>
     <div class="message"></div>
 </section>
-<script src="/js/request.js"></script>
+<script src="{{ mix('/js/request.js') }}"></script>

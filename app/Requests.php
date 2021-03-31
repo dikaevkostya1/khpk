@@ -21,4 +21,14 @@ class Requests extends Model
         'status_id',
         'remember_token',
     ];
+
+    public function speciality()
+    {
+        return $this->belongsTo('App\Specialties','speciality_id','id');
+    }
+
+    public function status()
+    {
+        return $this->belongsTo('App\StatusesRequest','status_id','code');
+    }
 }

@@ -13,9 +13,11 @@ class InstitutionsSeeder extends Seeder
     public function run()
     {
         DB::table('institutions')->insert([
+            'id' => 1,
             'name' => 'Колледж'
         ]);
         DB::table('institutions')->insert([
+            'id' => 2,
             'name' => 'Филиал'
         ]);
     }
