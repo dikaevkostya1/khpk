@@ -7,8 +7,10 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'AdminSeeder' => $baseDir . '/database/seeds/AdminSeeder.php',
+    'App\\AdminLog' => $baseDir . '/app/AdminLog.php',
     'App\\AdminUsers' => $baseDir . '/app/AdminUsers.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
+    'App\\Deadline' => $baseDir . '/app/Deadline.php',
     'App\\Educations' => $baseDir . '/app/Educations.php',
     'App\\Enrolle' => $baseDir . '/app/Enrolle.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
@@ -34,6 +36,7 @@ return array(
     'App\\Providers\\AuthServiceProvider' => $baseDir . '/app/Providers/AuthServiceProvider.php',
     'App\\Providers\\EventServiceProvider' => $baseDir . '/app/Providers/EventServiceProvider.php',
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
+    'App\\Qualifications' => $baseDir . '/app/Qualifications.php',
     'App\\Requests' => $baseDir . '/app/Requests.php',
     'App\\Specialties' => $baseDir . '/app/Specialties.php',
     'App\\StatusesRequest' => $baseDir . '/app/StatusesRequest.php',

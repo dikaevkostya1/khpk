@@ -1,0 +1,124 @@
+$laptop-width: 1280px;
+
+$background-color: #F1F5F8;
+$color: #3e3e3e;
+$color-opacity: rgba(62, 62, 62, 0.8);
+$accent: #1e91ff;
+$accent-opacity: rgba(30, 145, 255, 0.2);
+
+$padding: 50px;
+$padding-low: 35px;
+$padding-form: 20px;
+$padding-mobile: 20px;
+$padding-low-mobile: 10px;
+
+$width-section: 1180px;
+$width-section-mobile: 100%;
+
+$height-header: 180px;
+$height-header-mobile: 100px;
+
+$border-radius: 30px;
+$border-radius-low: 20px;
+$border-radius-mobile: 20px;
+
+$border-white: 1px solid rgba(255, 255, 255, 0.2);
+$border-accent: 1px solid $accent;
+$border-accent-opacity: 1px solid rgba(30, 145, 255, 0.2);
+
+$box-shadow: rgba(0, 0, 0, 0.08);
+$box-shadow-white: rgba(255, 255, 255, 0.8);
+$box-shadow-accent: 4px 4px 12px rgba(15, 75, 133, 0.3), -4px -4px 12px #C9E5FF;
+
+$transition-object: 0.3s cubic-bezier(0.86, 0, 0.07, 1);
+
+@mixin backdrop_blur {
+    backdrop-filter: saturate(180%) blur(20px);
+}
+
+@mixin transition-color {
+    transition: color 0.2s ease-in-out;
+}
+
+@mixin neumorphism {
+    background-color: $background-color;
+    box-shadow: 8px 8px 16px $box-shadow, -8px -8px 16px $box-shadow-white;
+    border: $border-white;
+}
+@mixin neumorphism_low {
+    background-color: $background-color;
+    box-shadow: 4px 4px 8px $box-shadow, -4px -4px 8px $box-shadow-white;
+    border: $border-white;
+}
+@mixin neumorphism_low_inset {
+    box-shadow: inset -4px -4px 12px $box-shadow-white, inset 4px 4px 8px $box-shadow;
+}
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+@mixin flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+}
+@mixin flex {
+    display: flex;
+    justify-content: center;
+}
+@mixin button {
+    background: $accent;
+    border: $border-white;
+    box-shadow: $box-shadow-accent;
+    border-radius: $border-radius-low;
+    padding: 10px 20px;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 500;
+    font-family: Rubik-medium;
+    transition: box-shadow 0.3s ease-in-out;
+
+    &:hover {
+        box-shadow: none;
+    }
+}
+@mixin button_small {
+    background: $accent;
+    border: $border-white;
+    box-shadow: $box-shadow-accent;
+    border-radius: 15px;
+    height: 30px;
+    padding: 6px 12px;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 500;
+    font-family: Rubik-medium;
+    transition: box-shadow 0.3s ease-in-out;
+
+    &:hover {
+        box-shadow: none;
+    }
+}
+@mixin gradient {
+    background: linear-gradient(268.89deg, #1E91FF -0.02%, #17DAE7 99.98%);
+}
+@mixin background-text {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+@mixin background-cover {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+@mixin background-contain {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}

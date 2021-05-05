@@ -31,4 +31,10 @@ class Requests extends Model
     {
         return $this->belongsTo('App\StatusesRequest','status_id','code');
     }
+
+    public function enrolle()
+    {
+        return $this->belongsTo('App\Enrolle','enrolle_id','id');
+    }
+
 }

@@ -9,7 +9,7 @@
         <input type="submit" value="Войти">
     </form>
     @if ($errors->all())
-        <div class="message">
+        <div id="message">
             @foreach($errors->all() as $error)
                 <p>{{ $error }}</p>
             @endforeach

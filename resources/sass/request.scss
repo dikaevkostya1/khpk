@@ -1,0 +1,9 @@
+@import 'layouts/variables.scss';
+#request {
+    form {
+        .block_input {
+            @include flex-between;
+            flex-wrap: wrap;
+        }
+    }
+}

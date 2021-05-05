@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Deadline;
 use Throwable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -31,11 +32,21 @@ class RequestController extends Controller
     public function index(Request $request) {
         if (Auth::check()) {
             if (Auth::user()->email_verified == true) {
-                $data = [
-                    'specialties' => $this->specialties,
-                    'institutions' => Institutions::all(), 
-                    'request_stage' => 3
-                ];
+                $deadline = Deadline::where('institution_id', request('institution', 1))
+                                    ->where('format_id', request('format', 1))
+                                    ->where('year', Carbon::now()->format('Y'))
+                                    ->where('start', '<=', Carbon::now())
+                                    ->first();
+                if ($deadline) {
+                    $data = [
+                        'specialties' => $this->specialties,
+                        'institutions' => Institutions::all(), 
+                        'request_stage' => 3
+                    ];
+                }
+                else {
+                    return view('deadline');
+                }
             }
             else $data = [
                 'request_stage' => 2
@@ -65,11 +76,11 @@ class RequestController extends Controller
         $messages = [
             'login.unique' => 'Такой логин уже занят',     
             'mail.unique' => 'Эта почта уже используется',
-            'passport.unique' => 'Такие паспортные данные уже используются. Скорее всего вы уже зарегистрированы, <a href="/login">войдите</a> в свой личный кабинет'
+            'passport.unique' => 'Такие паспортные данные уже используются'
         ];
         $rules = [
             'login' => 'unique:enrolle',
-            'mail' => 'unique:enrolle|email',
+            'mail' => 'unique:enrolle',
             'passport' => 'unique:enrolle'
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -105,7 +116,7 @@ class RequestController extends Controller
                     'name' => $enrolle->full_name,
                     'code' => $enrolle->email_verified_code
                 ];
-                // Mail::to($enrolle->mail)->send(new EnrolleMail($data));
+                Mail::to($enrolle->mail)->send(new EnrolleMail($data));
                 if (Auth::loginUsingId($enrolle->id)) {
                     return response()->json([
                         'view' => view('ajax.request.verified')->render()
@@ -114,7 +125,7 @@ class RequestController extends Controller
             }
             catch (Throwable $e) {
                 return response()->json([
-                    'errors' => ['Произошла ошибка на сервере'.$e]
+                    'errors' => ['Заполните все поля']
                 ], 500);
             }
         }
@@ -145,6 +156,7 @@ class RequestController extends Controller
     }
 
     private function request(Request $request) {
+        $this->middleware('auth');
         $messages = [
             'speciality_id.unique' => 'Вы уже подали заявку на эту специальность',
             'documents.required' => 'Загрузите файл'
@@ -177,7 +189,7 @@ class RequestController extends Controller
             }
             catch (Throwable $e) {
                 return response()->json([
-                    'errors' => ['Произошла ошибка на сервере'.$e]
+                    'errors' => ['Произошла ошибка на сервере']
                 ], 500);
             }
         }

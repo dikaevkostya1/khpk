@@ -5,3 +5,12 @@
  */
 
 require('./bootstrap');
+require('./assets/header');
+require('./assets/anchor');
+require('./assets/switch');
+require('./assets/message');
+require('./assets/support_css');
+
+if (!SupportsCSS('display', 'flex')) {
+    document.location.replace('/support_browser');
+}

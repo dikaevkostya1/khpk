@@ -99,7 +99,7 @@ $(function () {
     e.preventDefault();
     $.ajax({
       type: "POST",
-      url: '/request/push',
+      url: '/ajax/request/push',
       enctype: 'multipart/form-data',
       data: new FormData(this),
       processData: false,
@@ -109,10 +109,7 @@ $(function () {
       },
       error: function error(response) {
         var data = response.responseJSON.errors;
-        $('#request .message').html('');
-        $.each(data, function (key, value) {
-          $('#request .message').append('<p>' + value + '</p>');
-        });
+        show_message(data);
       }
     });
     return false;

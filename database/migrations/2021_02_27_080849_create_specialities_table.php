@@ -17,12 +17,7 @@ class CreateSpecialitiesTable extends Migration
             $table->id();
             $table->string('code', 8);
             $table->string('name');
-            $table->string('term_study');
-            $table->integer('finansing_id')->unsigned();
-            $table->integer('number_seats');
-            $table->string('qualification');
             $table->integer('institution_id')->unsigned();
-            $table->integer('format_id')->unsigned();
             $table->timestamps();
         });
     }

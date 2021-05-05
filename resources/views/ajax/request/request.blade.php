@@ -9,6 +9,6 @@
         <input type="file" name="documents">
         <input type="submit" value="Отправить">
     </form>
-    <div class="message"></div>
+    <div id="message"></div>
 </section>
 <script src="{{ mix('/js/request.js') }}"></script>

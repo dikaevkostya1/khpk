@@ -1,8 +1,479 @@
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import 'layouts/clear';
+@import 'layouts/variables';
+@import 'layouts/header';
+@import 'layouts/footer';
 
-// Variables
-@import 'variables';
+@font-face {
+    font-family: Rubik;
+    src: url('/font/rubik.ttf');
+}
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@font-face {
+    font-family: Rubik-medium;
+    src: url('/font/rubik-medium.ttf');
+}
+
+@font-face {
+    font-family: Rubik-bold;
+    src: url('/font/rubik-bold.ttf');
+}
+
+body {
+    background: $background-color;
+    font-size: 14px;
+    line-height: 17px;
+    font-family: Rubik;
+    font-weight: 400;
+    padding-top: $height-header;
+    min-width: $laptop-width;
+    color: $color;
+
+    @media screen and (max-width: $laptop-width) {
+        padding-top: $height-header-mobile;
+    }
+}
+
+svg {
+    fill: $color;
+}
+
+h1, h2, h3 {
+    font-family: Rubik-bold;
+    font-weight: 700;
+    cursor: default;
+
+    &.gradient {
+        @include gradient;
+        @include background-text;
+    }
+
+    &.accent {
+        color: $accent;
+    }
+}
+
+h1 {
+    font-size: 40px;
+    line-height: 47px;
+
+    @media screen and (max-width: $laptop-width) {
+        font-size: 25px;
+        line-height: 30px;
+    }
+}
+
+span {
+    &.middle {
+        font-size: 16px;
+        line-height: 19px;
+    }
+    
+    &.large {
+        font-size: 18px;
+        line-height: 21px;
+    }
+
+    &.status {
+        padding: 6px 14px;
+        background: $accent-opacity;
+        border-radius: 14px;
+        color: $accent;
+    }
+
+    &.accent {
+        color: $accent;
+    }
+}
+
+b {
+    font-family: Rubik-medium;
+    font-weight: 500;
+}
+
+a {
+    text-decoration: none;
+    color: $color;
+    @include transition-color;
+    cursor: pointer;
+
+    &.button {
+        @include button;
+
+        &:hover {
+            color: #fff;
+        }
+    }
+
+    &.button_small {
+        @include button_small;
+
+        &:hover {
+            color: #fff;
+        }
+    }
+
+    &:hover {
+        color: $accent;
+    }
+
+    &.underlined {
+        text-decoration: underline;
+        color: $accent;
+
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+}
+
+textarea {
+    overflow: auto;
+}
+
+input[type="text"], input[type="mail"], input[type="password"], input[type="date"], textarea{
+    display: flex;
+    align-self: stretch;
+    background: #FFFFFF;
+    @include neumorphism_low_inset;
+    border: $border-accent-opacity;
+    border-radius: 10px;
+    padding: 13px 20px;
+    color: $color;
+    resize: none;
+    overflow: hidden;
+    height: 43px;
+
+    &:focus {
+        border: $border-accent;
+        box-shadow: $box-shadow-accent;
+    }
+
+    &::placeholder {
+        color: $color-opacity;
+        &:focus {
+            color: $color;
+        }
+    }
+}
+
+input[type="submit"] {
+    @include button;
+
+    &.button_small {
+        @include button_small;
+    }
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: inset -4px -4px 12px $box-shadow-white, inset 4px 4px 8px $box-shadow, inset 0 0 0 50px #fff !important; 
+    -webkit-text-fill-color: $color !important;
+    color: $color !important;
+}
+
+textarea {
+    height: 129px;
+}
+
+.switch_block {
+    @include flex-center;
+    @include neumorphism_low_inset;
+    background-color: #fff;
+    border: $border-accent-opacity;
+    padding: 5px;
+    height: 42px;
+    border-radius: $border-radius-low;
+    overflow: hidden;
+
+    .switch + .switch {
+        margin-left: 5px;
+    }
+
+    .switch {
+        padding: 7px 14px;
+        font-size: 14px;
+        line-height: 16px;
+        border-radius: 14px;
+        border: $border-white;
+
+        &.active {
+            @include neumorphism_low;
+            font-family: Rubik-medium;
+            font-weight: 500;
+            color: $accent;
+        }
+
+        &.disabled {
+            pointer-events: none; 
+            cursor: default;
+        }
+    }
+}
+.switch_block2 {
+    display: flex;
+    align-items: flex-start;
+    padding: 10px;
+    background: #fff;
+    border: $border-accent-opacity;
+    border-radius: 15px;
+    @include neumorphism_low_inset;
+
+    .switch {
+        @include flex-center;
+        padding: 5px 25px;
+        height: 40px;
+        border-radius: 10px;
+        cursor: pointer;
+
+        &.active {
+            @include neumorphism_low;
+            font-weight: 500;
+            color: $accent;
+        }
+
+        &.disabled {
+            pointer-events: none; 
+            cursor: default;
+        }
+    }
+
+    .switch + .switch {
+        margin-left: 10px;
+    }
+
+}
+
+main {
+    @include flex-column;
+    align-items: center;
+    padding: 0 $padding;
+    position: relative;
+
+    section {
+        @include flex-between;
+        width: $width-section;
+        padding: $padding-low;
+    }
+
+    section + section {
+        margin-top: $padding;
+    }
+
+    @media screen and (max-width: $laptop-width) {
+        padding: $padding-mobile;
+
+        section {
+            width: $width-section-mobile;
+            padding: $padding-low-mobile;
+        }
+    }
+}
+
+footer {
+    padding: $padding;
+    @include flex-center;
+
+    .block {
+        @include flex-between;
+        padding: 20px $padding-low;
+    }
+}
+
+.flex-center {
+    @include flex-center;
+}
+
+.flex-center {
+    @include flex-between;
+}
+
+.block_form {
+    @include flex-column;
+    align-items: flex-start;
+}
+form {
+    @include flex-column;
+    @include neumorphism;
+    align-items: center;
+    align-self: stretch;
+    padding: $padding-form;
+    border-radius: $border-radius-low;
+
+    .block_input {
+        @include flex-column;
+        align-self: stretch;
+
+        input[type="submit"] {
+            align-self: center;
+        }
+
+        input + input, input + textarea {
+            margin-top: $padding-form;
+        }
+
+        a {
+            text-align: right;
+
+            & + input {
+                margin-top: $padding-form;
+            }
+        }
+        
+        input + a {
+            margin-top: $padding-form;
+        }
+    }
+
+    .block_form & {
+        margin-top: $padding;
+    }
+}
+#message {
+    display: none;
+    position: fixed;
+    top: $height-header;
+    width: 400px;
+    min-height: 100px;
+    left: calc(50% - 200px);
+    border-radius: $border-radius-low;
+    border: $border-accent-opacity;
+    box-shadow: 0 0 32px rgba(0, 0, 0, 0.3);
+    padding: $padding-form;
+    background-color: rgba($color: #fff, $alpha: 0.7);
+    @include backdrop_blur;
+    z-index: 9999;
+
+    .block {
+        display: flex;
+        flex-direction: column;
+
+        .title {
+            display: flex;
+            align-items: center;
+    
+            .icon {
+                height: 30px;
+                width: 30px;
+                fill: $accent;
+                margin-right: 15px;
+            }
+    
+            h3 {
+                color: $accent;
+            }
+        }
+    
+        .message {
+            margin: $padding-form 0 $padding-form 45px;
+    
+            p + p {
+                margin-top: 0.7rem;
+            }
+        }
+    
+        .close {
+            align-self: flex-end;
+            padding: 6px 12px;
+        }
+    }
+    
+}
+
+#error {
+    .img {
+        fill: $accent;
+        width: 200px;
+        height: 200px;
+    }
+
+    .block {
+        h1 {
+            margin-bottom: $padding-low;
+        }
+    }
+}
+
+.date_time_block {
+    @include flex-between;
+    padding: 20px;
+    @include neumorphism_low_inset;
+    background: $background-color;
+    height: 140px;
+    width: 314px;
+    border-radius: 70px;
+
+    .block_circle {
+        @include flex-center;
+        flex-direction: column;
+        height: 100px;
+        width: 100px;
+        padding: 20px;
+        @include neumorphism;
+        border-radius: 50px;
+
+        &.from {
+            color: $accent;
+            margin-right: 20px;
+        }
+
+        .text {
+            font-size: 40px;
+            line-height: 47px;
+            font-family: Rubik-bold;
+            font-weight: 700;
+        }
+
+        .sign {
+            font-size: 12px;
+            line-height: 14px;
+            text-transform: lowercase;
+        }
+
+    }
+
+    .jump {
+        @include flex;
+        margin-right: 20px;
+
+        .circle {
+            width: 8px;
+            height: 8px;
+            border-radius: 4px;
+            background: $accent;
+
+            &:nth-child(2) {
+                opacity: 0.7;
+            }
+
+            &:nth-child(3) {
+                opacity: 0.4;
+            }
+
+            & + .circle {
+                margin-left: 5px;
+            }
+        }
+        
+    }
+}
+#loader {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9998;
+}
+.ajax_loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(241, 245, 248, 0.5);
+    @include backdrop_blur;
+    display: none;
+    background-image: url('/storage/img/icons/logo/logo_loader.svg');
+    @include background-contain;
+    background-size: 10%;
+}

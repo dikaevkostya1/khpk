@@ -1,0 +1,112 @@
+header {
+    @include flex-center;
+    flex-direction: column;
+    padding: $padding;
+    position: fixed;
+    width: 100%;
+    height: $height-header;
+    left: 0;
+    top: 0;
+    background: linear-gradient(180deg, #EDF1F5 72.32%, rgba(237, 241, 245, 0) 100%);
+    filter: drop-shadow(0px 8px 44px #EDF1F5);
+    z-index: 9999;
+    transition: transform $transition-object;
+
+    &.out {
+        transform: translateY(-100%);
+    }
+
+    #logo {
+        @include flex-center;
+        
+        .logo_block {
+            @include flex-center;
+
+            .img {
+                transition: fill .2s ease-in-out;
+                fill: $color;
+            }
+    
+            &:hover {
+                .img {
+                    fill: $accent;
+                }
+            }
+            
+            .logo {
+                @include flex-center;
+    
+                .img {
+                    height: 28px;
+                    width: 37px;
+                    
+                }
+        
+                .text {
+                    margin-left: 20px;
+                    font-family: Rubik-medium;
+                    font-weight: 500;
+                    font-size: 9px;
+                    line-height: 11px;
+                }
+            }
+    
+            .border {
+                margin-left: 30px;
+                width: 1px;
+                align-self: stretch;
+                background-color: $color;
+            }
+
+        }
+        
+        .button_back {
+            @include flex-center;
+            @include button_small;
+            margin-right: 30px;
+
+            &:hover {
+                box-shadow: none;
+            }
+
+            .chevron {
+                fill: #fff;
+                height: 1rem;
+                width: .8rem;
+                margin-right: 6px;
+            }
+        }
+    }
+
+    .menu {
+        @include flex-between;
+        padding: 20px $padding-low;
+        width: 100%;
+        max-width: $width-section;
+        height: 80px;
+        border-radius: $border-radius;
+        @include neumorphism;
+
+        nav {
+            display: flex;
+            align-items: center;
+
+            a + a { 
+                margin-left: 30px;
+            }
+        }
+    }
+
+    @media screen and (max-width: $laptop-width) {
+        height: $height-header-mobile;
+        padding: $padding-mobile;
+    
+        .menu {
+            height: 60px;
+            border-radius: $border-radius-mobile;
+            max-width: none;
+            min-width: none;
+            padding: $padding-low-mobile;
+        }
+    }
+}

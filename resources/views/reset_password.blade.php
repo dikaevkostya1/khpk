@@ -4,9 +4,11 @@
 <section id="request">
     <form method="post">
         @csrf
-        <input type="password" placeholder="Новый пароль" name="password">
-        <input type="password" placeholder="Подтверждение пароля">
-        <input type="submit" value="Продолжить">
+        <div class="block_input">
+            <input type="password" placeholder="Новый пароль" name="password">
+            <input type="password" placeholder="Подтверждение пароля">
+            <input type="submit" value="Продолжить">
+        </div>
     </form>
 </section>
 @endsection

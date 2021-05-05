@@ -37,7 +37,7 @@ class LoginEnrolleResetPasswortController extends Controller
     public function auth($token) {
         $enrolle = $this->validToken($token);
         if ($enrolle) return view('reset_password');
-        else return redirect()->route('home');
+        else return abort(404);
     }
 
     public function reset(Request $request, $token) {

@@ -19,6 +19,7 @@ class CreateAdmissionDeadlineTable extends Migration
             $table->dateTime('ending');
             $table->integer('format_id')->unsigned();
             $table->integer('institution_id')->unsigned();
+            $table->year('year');
         });
     }
 

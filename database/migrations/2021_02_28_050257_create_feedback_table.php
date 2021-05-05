@@ -18,7 +18,7 @@ class CreateFeedbackTable extends Migration
             $table->string('name');
             $table->string('phone', 11);
             $table->string('mail');
-            $table->longText('message');
+            $table->text('message');
             $table->boolean('answered');
             $table->integer('institution_id')->unsigned();
             $table->timestamps();

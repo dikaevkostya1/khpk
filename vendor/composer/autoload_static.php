@@ -471,8 +471,10 @@ class ComposerStaticInit0d67725439166a16de26b233901e7dfb
 
     public static $classMap = array (
         'AdminSeeder' => __DIR__ . '/../..' . '/database/seeds/AdminSeeder.php',
+        'App\\AdminLog' => __DIR__ . '/../..' . '/app/AdminLog.php',
         'App\\AdminUsers' => __DIR__ . '/../..' . '/app/AdminUsers.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
+        'App\\Deadline' => __DIR__ . '/../..' . '/app/Deadline.php',
         'App\\Educations' => __DIR__ . '/../..' . '/app/Educations.php',
         'App\\Enrolle' => __DIR__ . '/../..' . '/app/Enrolle.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
@@ -498,6 +500,7 @@ class ComposerStaticInit0d67725439166a16de26b233901e7dfb
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\Qualifications' => __DIR__ . '/../..' . '/app/Qualifications.php',
         'App\\Requests' => __DIR__ . '/../..' . '/app/Requests.php',
         'App\\Specialties' => __DIR__ . '/../..' . '/app/Specialties.php',
         'App\\StatusesRequest' => __DIR__ . '/../..' . '/app/StatusesRequest.php',

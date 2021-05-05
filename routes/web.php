@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// 
+Route::view('/support_browser', 'support_browser'); 
+
 // главная страница
 Route::get('/', 'HomeController@index')->name('home'); 
 Route::post('/ajax/feedback', 'HomeController@feedback');
@@ -20,7 +23,7 @@ Route::post('/ajax/feedback', 'HomeController@feedback');
 
 // страница отправки заявки
 Route::match(['get', 'post'], '/request', 'RequestController@index')->name('request');
-Route::post('/request/push', 'RequestController@push');
+Route::post('/ajax/request/push', 'RequestController@push');
 Route::prefix('request/verify')->group(function () {
     Route::view('/change', 'change_mail')->middleware('auth'); 
     Route::post('/change', 'ChangeMailController');
@@ -52,4 +55,8 @@ Route::get('/logout/admin', 'LoginAdminController@logout');
 // страница входа администратора
 
 // страница панели администратора
-Route::get('/admin', 'AdminPanelController@index')->name('admin');
+Route::prefix('admin')->group(function () {
+    Route::get('', 'AdminPanelController@index')->name('admin');
+    Route::post('/deadline', 'AdminPanelController@deadline');
+});
+

@@ -4,8 +4,8 @@ $(function() {
             '/ajax/feedback',
             $('#feedback form').serialize(),
             function(msg) {
-                $("#feedback form").find('.input').val('');
-                $('#feedback .message').html(msg);
+                msg = [msg];
+                show_message(msg);
             }
         );
         return false;

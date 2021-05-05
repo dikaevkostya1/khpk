@@ -1,12 +1,17 @@
 @extends('layouts.app')
 @section('title', 'Сброс пароля')
 @section('content')
-<section id="request">
+<section id="request" class="flex-center">
+    <div class="block_form">
+    <h1>Сброс пароля</h1>
     <form method="post">
         @csrf
-        <input type="text" placeholder="Email" name="mail">
-        <input type="submit" value="Продолжить">
+        <div class="block_input">
+            <input type="text" placeholder="Email" name="mail">
+            <input type="submit" value="Продолжить">
+        </div>
     </form>
-    <div class="message">{{ $message ?? '' }}</div>
+    </div>
+    <div id="message">{{ $message ?? '' }}</div>
 </section>
 @endsection
