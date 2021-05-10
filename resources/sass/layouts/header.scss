@@ -78,6 +78,36 @@ header {
         }
     }
 
+    .request_stage {
+        @include flex-center;
+
+        .circle {
+            height: 30px;
+            width: 30px;
+            @include flex-center;
+            border: 2px solid $accent-opacity;
+            border-radius: 15px;
+
+            &.active {
+                border: 2px solid $accent;
+            }
+        }
+
+        .line {
+            background: $accent-opacity;
+            width: 20px;
+            height: 1px;
+            
+            &.active {
+                background: linear-gradient(90deg, $accent 10.18%, $accent-opacity 100.18%);
+            }
+
+            &.full_active {
+                background: $accent;
+            }
+        }
+    }
+
     .menu {
         @include flex-between;
         padding: 20px $padding-low;

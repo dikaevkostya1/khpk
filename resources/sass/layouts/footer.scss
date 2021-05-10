@@ -1,0 +1,39 @@
+footer { 
+    section {
+        @include flex-between;
+        padding: 20px $padding-low;
+        max-width: $width-section;
+        flex-grow: 1;
+
+        .logo {
+            @include flex-center;
+
+            .icon {
+                margin-right: 10px;
+                height: 25px;
+                width: 34px;
+            }
+        }
+
+        .social_block {
+            display: flex;
+
+            .social {
+                @include flex-center;
+                width: 70px;
+                height: 70px;
+                border-radius: 35px;
+                @include neumorphism_low;
+
+                .icon {
+                    width: 30px;
+                    height: 30px;
+                }
+
+                & + .social {
+                    margin-left: 20px;
+                }
+            }
+        }
+    }
+}

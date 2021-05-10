@@ -8,12 +8,14 @@ class Specialties extends Model
 {
     protected $table = 'specialties';
 
+    protected $guarded = [];
+
     protected $hidden = [
         'institution_id'
     ];
 
-    public function qualifications($finansing_id, $format_id) {
-        return $this->hasMany('App\Qualifications', 'speciality_id', 'id')->where('finansing_id', $finansing_id)->where('format_id', $format_id);
+    public function qualifications() {
+        return $this->hasMany('App\Qualifications', 'speciality_id', 'id');
     }
 
 }

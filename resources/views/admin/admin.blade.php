@@ -22,7 +22,7 @@
     @else
         Сроки не установлены
     @endif
-    <form action="/admin/deadline" method="post">
+    <form action="/admin/deadline" method="post" class="form_block">
         @csrf
         <input type="hidden" value="{{ $format }}" name="format">
         <input type="datetime-local" name="start" value="{{ $deadline ? $deadline->start->format('Y-m-d\TH:i') : $now->format('Y-m-d\TH:i') }}">

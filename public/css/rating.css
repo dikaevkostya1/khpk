@@ -1,0 +1,12 @@
+header .user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+header .user .icon {
+  height: 20px;
+  width: 20px;
+  margin-right: 20px;
+}
+

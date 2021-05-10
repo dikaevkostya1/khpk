@@ -8,20 +8,16 @@ use Illuminate\Support\Facades\Validator;
 
 class ChangeMailController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function __invoke(Request $request)
     {
         $this->middleware('auth');
         $messages = [   
-            'mail.unique' => 'Эта почта уже используется'
+            'mail.unique' => 'Эта почта уже используется',
+            'mail.required' => 'Заполните поле',
+            'mail.email' => 'Некорректный Email'
         ];
         $rules = [
-            'mail' => 'unique:enrolle'
+            'mail' => 'unique:enrolle|required|email'
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {

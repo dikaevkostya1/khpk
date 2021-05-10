@@ -1,5 +1,5 @@
 $(function() {
-    $(document).on('click', '.switch_block .switch', function(e){
+    $(document).on('click', '.switch_block .switch, .switch_block2 .switch', function(e){
         $(this).parent().find('.active').removeClass('active').removeClass('disabled');
         $(this).addClass('active').addClass('disabled');
     });
@@ -12,7 +12,7 @@ $(function() {
             $.each(object, function(key, value){
                 $(value).replaceWith($(value,newDom));
             });
-            document.location.hash = url;
+            window.history.pushState(null, null, url);
             $(loader).children('.ajax_loader').fadeOut(200);
             setTimeout(() => {
                 $(loader).children('.ajax_loader').remove();

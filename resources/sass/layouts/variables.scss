@@ -1,6 +1,6 @@
 $laptop-width: 1280px;
 
-$background-color: #F1F5F8;
+$background-color: #f1f5f8;
 $color: #3e3e3e;
 $color-opacity: rgba(62, 62, 62, 0.8);
 $accent: #1e91ff;
@@ -85,6 +85,13 @@ $transition-object: 0.3s cubic-bezier(0.86, 0, 0.07, 1);
 
     &:hover {
         box-shadow: none;
+    }
+
+    &:disabled {
+
+        &:hover {
+            box-shadow: $box-shadow-accent;
+        }
     }
 }
 @mixin button_small {

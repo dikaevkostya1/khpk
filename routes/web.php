@@ -23,6 +23,7 @@ Route::post('/ajax/feedback', 'HomeController@feedback');
 
 // страница отправки заявки
 Route::match(['get', 'post'], '/request', 'RequestController@index')->name('request');
+Route::get('/download/request/{doc}', 'RequestController@download');
 Route::post('/ajax/request/push', 'RequestController@push');
 Route::prefix('request/verify')->group(function () {
     Route::view('/change', 'change_mail')->middleware('auth'); 

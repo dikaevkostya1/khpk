@@ -43,9 +43,14 @@ class LoginEnrolleResetPasswortController extends Controller
     public function reset(Request $request, $token) {
         $enrolle = $this->validToken($token);
         if ($enrolle) {
-            $enrolle->password = Hash::make($request->password);
-            $enrolle->save();
-            return redirect()->route('login');
+            if ($request->password == $request->password_apply) {
+                $enrolle->password = Hash::make($request->password);
+                $enrolle->save();
+                return redirect()->route('login');
+            }
+            else return view('reset_password', [
+                'message' => 'Пароли не совпадают'
+            ]);
         }
         else return redirect()->route('home');
     }

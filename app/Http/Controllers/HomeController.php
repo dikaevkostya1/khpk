@@ -2,51 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Deadline;
 use Illuminate\Http\Request;
-use App\Specialties;
 use App\Feedback;
 use App\Institutions;
 use App\Commission;
+use App\Helpers\DeadlineHelpers;
+use App\Helpers\SpecialtiesHelpers;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Throwable;
 
 class HomeController extends Controller
 {
 
-    public function __construct()
-    {
-        $specialties = Specialties::query();
-        
-        $specialties->when(request('institution', 1), function ($q, $filter) {
-            return $q->where('institution_id', $filter);
-        });
-        $this->specialties = $specialties->get();
+    public function __construct() {
+        $this->deadline = DeadlineHelpers::get_info();
+        $this->specialties = SpecialtiesHelpers::get();
         $this->now = Carbon::now();
         $this->year = $this->now->format('Y');
     }
 
     public function index() {
-        $deadline = Deadline::where('institution_id', request('institution', 1))
-                            ->where('ending', '>=', $this->now)
-                            ->where('format_id', request('format', 1))
-                            ->where('year', $this->year)
-                            ->first();
-        if ($deadline) {
-            $start = Carbon::parse($deadline->start);
-            $deadline->start = $start->format('d');
-            $deadline->start_sign = $start->formatLocalized('%B');
-            $ending = Carbon::parse($deadline->ending);
-            $deadline->ending = $ending->format('d');
-            $deadline->ending_sign = $ending->formatLocalized('%B');
-        }
-        else {
-            $deadline = new \stdClass();
-            $deadline->start = '?';
-            $deadline->ending = '?';
-            $deadline->start_sign = '';
-            $deadline->ending_sign = '';
-        }
         $commission = Commission::where('institution_id', request('institution', 1))->first();
         $day_week = [
             ['ПН', 'понедел...'],
@@ -73,7 +50,7 @@ class HomeController extends Controller
         }
         else {
             $commission = new \stdClass();
-            $commission->status = '';
+            $commission->status = html_entity_decode('&mdash;');
             $commission->start_day = '?';
             $commission->start_day_sign = '';
             $commission->ending_day = '?';
@@ -85,35 +62,45 @@ class HomeController extends Controller
         $data = [
             'institutions' => Institutions::all(),
             'specialties' => $this->specialties,
-            'deadline' => $deadline,
+            'deadline' => $this->deadline,
             'now' => $this->now,
             'commission' => $commission
         ];
         return view('home', $data);
     }
 
-    public function load_info() {
-        $data = [
-            'deadline' => $this->deadline,
-            'now' => $this->now,
-        ];
-        return view('ajax.home.info', $data);
-    }
-
     public function feedback(Request $request) {
-        try {
-            $feedback = Feedback::create([
-                'name' => $request->name,
-                'phone' => $request->phone,
-                'mail' => $request->mail,
-                'message' => $request->message,
-                'institution_id' => request('institutions', 1)
-            ]);
-            $feedback->save();
-            return 'Успешно отправлено';
+        $messages = [
+            'mail.email' => 'Неккоректный Email',
+        ];
+        $rules = [ 
+            'mail' => 'email',
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()->all()
+            ], 400);
         }
-        catch (Throwable $e) {
-            return 'Заполните все поля';
+        else {
+            try {
+                $feedback = Feedback::create([
+                    'name' => $request->name,
+                    'phone' => $request->phone,
+                    'mail' => $request->mail,
+                    'message' => $request->message,
+                    'institution_id' => request('institutions', 1)
+                ]);
+                $feedback->save();
+                return response()->json([
+                    'message' => 'Успешно отправлено'
+                ], 200);
+            }
+            catch (Throwable $e) {
+                return response()->json([
+                    'errors' => 'Произошла ошибка на сервере'
+                ], 500);
+            }
         }
     }
 

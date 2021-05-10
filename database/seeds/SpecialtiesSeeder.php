@@ -13,6 +13,7 @@ class SpecialtiesSeeder extends Seeder
     public function run()
     {
         DB::table('specialties')->insert([
+            'id' => 1,
             'code' => '09.02.07',
             'name' => 'Информационные системы и программирование',
             'institution_id' => 1

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Deadline;
 use Throwable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -12,41 +11,34 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Educations;
 use App\Requests;
-use App\Specialties;
 use App\Institutions;
 use App\Enrolle;
+use App\Helpers\DeadlineHelpers;
+use App\Helpers\SpecialtiesHelpers;
 use App\Mail\EnrolleMail;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class RequestController extends Controller
 {
-    public function __construct(Request $request) {
-        $specialties = Specialties::query();
-        $specialties->when(request('institution', 1), function ($q, $filter) {
-            return $q->where('institution_id', $filter);
-        });
-        $this->specialties = $specialties->get();
+    public function __construct() {
+        $this->specialties = SpecialtiesHelpers::get();
+        $this->deadline = DeadlineHelpers::get();
     }
 
     public function index(Request $request) {
         if (Auth::check()) {
             if (Auth::user()->email_verified == true) {
-                $deadline = Deadline::where('institution_id', request('institution', 1))
-                                    ->where('format_id', request('format', 1))
-                                    ->where('year', Carbon::now()->format('Y'))
-                                    ->where('start', '<=', Carbon::now())
-                                    ->first();
-                if ($deadline) {
-                    $data = [
-                        'specialties' => $this->specialties,
-                        'institutions' => Institutions::all(), 
-                        'request_stage' => 3
-                    ];
-                }
-                else {
-                    return view('deadline');
-                }
+                $requests = Requests::select('speciality_id')->where('enrolle_id', Auth::user()->id)->pluck('speciality_id');
+                $data = [
+                    'specialties' => $this->specialties,
+                    'institutions' => Institutions::all(), 
+                    'request_stage' => 3,
+                    'deadline' => $this->deadline,
+                    'requests' => $requests->toArray(),
+                    'deadline_info' => DeadlineHelpers::get_info()
+                ];
             }
             else $data = [
                 'request_stage' => 2
@@ -76,56 +68,69 @@ class RequestController extends Controller
         $messages = [
             'login.unique' => 'Такой логин уже занят',     
             'mail.unique' => 'Эта почта уже используется',
-            'passport.unique' => 'Такие паспортные данные уже используются'
+            'mail.email' => 'Неккоректный Email',
+            'passport.unique' => 'Такие паспортные данные уже используются',
+            'password.min' => 'Минимум 8 символов в пароле'
         ];
         $rules = [
             'login' => 'unique:enrolle',
-            'mail' => 'unique:enrolle',
-            'passport' => 'unique:enrolle'
+            'mail' => 'unique:enrolle|email',
+            'passport' => 'unique:enrolle',
+            'password' => 'min:8'
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors()->all()
+                'errors' => $validator->errors()
             ], 400);
         }
         else {
             try {
-                $enrolle = Enrolle::create([
-                    'full_name' => $request->surname.' '.$request->name.' '.$request->middlename,
-                    'address_actual' => $request->address_actual,
-                    'address_registration' => $request->address_registration,
-                    'phone' => $request->phone,
-                    'date_born' => Carbon::parse($request->date_born)->format('Y-m-d'),
-                    'place_born' => $request->place_born,
-                    'passport' => $request->passport,
-                    'passport_date' => Carbon::parse($request->passport_date)->format('Y-m-d'),
-                    'passport_issued' => $request->passport_issued,
-                    'education_id' => $request->education_id,
-                    'education_ending' => $request->education_ending,
-                    'education_name' => $request->education_name,
-                    'education' => $request->education,
-                    'login' => $request->login,
-                    'mail' => $request->mail,
-                    'password' => Hash::make($request->password),
-                    'remember_token' => Hash::make(Str::random(5)),
-                    'email_verified_code' => random_int(1000, 9999)
-                ]);
-                $enrolle->save();
-                $data = [
-                    'name' => $enrolle->full_name,
-                    'code' => $enrolle->email_verified_code
-                ];
-                Mail::to($enrolle->mail)->send(new EnrolleMail($data));
-                if (Auth::loginUsingId($enrolle->id)) {
+                if ($request->password == $request->password_apply) {
+                    $enrolle = Enrolle::create([
+                        'full_name' => $request->surname.' '.$request->name.' '.$request->middlename,
+                        'address_actual' => $request->address_actual,
+                        'address_registration' => $request->address_registration,
+                        'phone' => $request->phone,
+                        'date_born' => Carbon::parse($request->date_born)->format('Y-m-d'),
+                        'place_born' => $request->place_born,
+                        'passport' => $request->passport,
+                        'passport_date' => Carbon::parse($request->passport_date)->format('Y-m-d'),
+                        'passport_issued' => $request->passport_issued,
+                        'education_id' => $request->education_id,
+                        'education_ending' => $request->education_ending,
+                        'education_name' => $request->education_name,
+                        'education' => $request->education,
+                        'login' => $request->login,
+                        'mail' => $request->mail,
+                        'password' => Hash::make($request->password),
+                        'remember_token' => Hash::make(Str::random(5)),
+                        'email_verified_code' => random_int(1000, 9999),
+                        'consent_data' => Storage::disk('documents')->putFile('consent', $request->file('consent_data')),
+                    ]);
+                    $enrolle->save();
+                    $data = [
+                        'name' => $enrolle->full_name,
+                        'code' => $enrolle->email_verified_code
+                    ];
+                    Mail::to($enrolle->mail)->send(new EnrolleMail($data));
+                    if (Auth::loginUsingId($enrolle->id)) {
+                        return response()->json([
+                            'view' => view('request', [
+                                'request_stage' => 2
+                            ])->render()
+                        ], 200);
+                    }
+                }
+                else {
                     return response()->json([
-                        'view' => view('ajax.request.verified')->render()
-                    ], 200);
+                        'errors' => ['Пароли не совпадают']
+                    ], 400);
                 }
             }
             catch (Throwable $e) {
                 return response()->json([
-                    'errors' => ['Заполните все поля']
+                    'errors' => ['Произошла ошибка на сервере']
                 ], 500);
             }
         }
@@ -133,14 +138,18 @@ class RequestController extends Controller
 
     private function email_verified(Request $request) {
         try {
-            if (Auth::user()->email_verified_code === $request->code) {
+            $code = $request->code1.''.$request->code2.''.$request->code3.''.$request->code4;
+            if (Auth::user()->email_verified_code == $code) {
                 Auth::user()->email_verified = true;
                 Auth::user()->save();
                 return response()->json([
-                    'view' => view('ajax.request.request', [
-                        'specialties' => $this->specialties
-                    ])->render() 
+                    'view' => view('request', [
+                        'specialties' => $this->specialties,
+                        'request_stage' => 3,
+                        'deadline' => $this->deadline
+                    ])->render()
                 ], 200);
+                
             }
             else {
                 return response()->json([
@@ -150,7 +159,7 @@ class RequestController extends Controller
         }
         catch (Throwable $e) {
             return response()->json([
-                'errors' => ['Произошла ошибка на сервере']
+                'errors' => ['Произошла ошибка на сервере'.$e]
             ], 500);
         }
     }
@@ -159,10 +168,11 @@ class RequestController extends Controller
         $this->middleware('auth');
         $messages = [
             'speciality_id.unique' => 'Вы уже подали заявку на эту специальность',
-            'documents.required' => 'Загрузите файл'
+            'documents.required' => 'Загрузите файл',
+            'speciality_id.required' => 'Выберите специальность'
         ];
         $rules = [ 
-            'speciality_id' => Rule::unique('requests')->where(function ($query) {
+            'speciality_id' => 'required', Rule::unique('requests')->where(function ($query) {
                 return $query->where('enrolle_id', Auth::user()->id);
             }),
             'documents' => 'required'
@@ -175,13 +185,15 @@ class RequestController extends Controller
         }
         else {
             try {
-                $request = Requests::create([
-                    'enrolle_id' => Auth::user()->id,
-                    'speciality_id' => $request->speciality_id,
-                    'path_documents' => $request->file('documents')->store('documents'),
-                    'institution_id' => request('institution', 1)
-                ]);
-                $request->save();
+                foreach ($request->speciality_id as $speciality) {
+                    $request = Requests::create([
+                        'enrolle_id' => Auth::user()->id,
+                        'speciality_id' => $speciality,
+                        'path_documents' => Storage::disk('documents')->putFile('documents', $request->file('documents')),
+                        'institution_id' => request('institution', 1)
+                    ]);
+                    $request->save();
+                }
                 return response()->json([
                     'redirect' => true,
                     'redirect_url' => route('rating')
@@ -193,5 +205,9 @@ class RequestController extends Controller
                 ], 500);
             }
         }
+    }
+
+    public function download($doc) {
+        return Storage::download('/documents/request/'.$doc);
     }
 }

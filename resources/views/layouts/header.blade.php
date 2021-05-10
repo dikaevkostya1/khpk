@@ -11,6 +11,7 @@
             </a>
             @show
         </div>
+        @yield('content_header')
         <nav>
             @yield('nav')
         </nav>

@@ -1,9 +1,131 @@
 @import 'layouts/variables.scss';
 #request {
+
     form {
-        .block_input {
-            @include flex-between;
-            flex-wrap: wrap;
+        width: 100%;
+        align-items: stretch;
+    }
+
+    .code_block {
+        .code {
+            @include flex-center;
+    
+            input {
+                width: 50px;
+                min-width: 0;
+                caret-color: transparent;
+    
+                & + input {
+                    margin-top: 0;
+                    margin-left: $padding-form;
+                }
+            }
         }
+
+        .text {
+            width: 260px;
+            margin-top: $padding-form;
+        }
+
+        .button_small {
+            text-align: center;
+            margin-top: $padding-form;
+        }
+        .timer_block {
+            display: none;
+            margin-top: $padding-form;
+            text-align: center;
+        }
+    }
+
+    .date_time_block {
+        margin-top: $padding-low;
+    }
+
+    .title_block {
+        @include flex-between;
+        margin-bottom: $padding-low;
+
+        .title {
+            @include flex-center;
+
+            .stage {
+                @include flex-center;
+                margin-right: $padding-low;
+                padding: 10px 15px;
+                @include gradient;
+                border-radius: 22px;
+                color: #fff;
+                border: $border-accent-opacity;
+            }
+        }
+
+        .switches {
+            @include flex-center;
+
+            .switch_block + .switch_block {
+                margin-left: 20px;
+            }
+        }
+    }
+
+    .block_request {
+        display: flex;
+
+        .form_block {
+            flex-grow: 1;
+            justify-content: space-around;
+
+            & + .form_block {
+                margin-top: $padding-low;
+            }
+        }
+
+        .slip {
+            flex-grow: 1;
+            margin-left: $padding-low;
+        }
+    }
+
+    .footnote {
+        margin-top: $padding-low;
+        display: flex;
+        align-items: center;
+
+        .text {
+            margin-left: $padding-low;
+
+            .title {
+                margin-bottom: 1rem;
+            }
+        }
+
+        .icon {
+            height: 35px;
+            fill: $accent;
+            align-self: flex-start;
+        }
+        
+    }
+
+    .apply_block {
+        display: none;
+        padding: 10px 15px;
+        border-radius: 30px;
+        border: $border-accent;
+        position: relative;
+        overflow: hidden;
+        
+        .apply {
+            width: 25px;
+            height: 25px;
+            fill: $accent;
+            margin-right: 1rem;
+            
+        }
+    }
+
+    #consent {
+        display: none;
     }
 }

@@ -19,6 +19,7 @@
 }
 
 body {
+    @include flex-column;
     background: $background-color;
     font-size: 14px;
     line-height: 17px;
@@ -31,6 +32,8 @@ body {
     @media screen and (max-width: $laptop-width) {
         padding-top: $height-header-mobile;
     }
+
+    
 }
 
 svg {
@@ -55,11 +58,6 @@ h1, h2, h3 {
 h1 {
     font-size: 40px;
     line-height: 47px;
-
-    @media screen and (max-width: $laptop-width) {
-        font-size: 25px;
-        line-height: 30px;
-    }
 }
 
 span {
@@ -95,9 +93,13 @@ a {
     color: $color;
     @include transition-color;
     cursor: pointer;
+    
 
     &.button {
         @include button;
+        position: relative;
+        overflow: hidden;
+        text-align: center;
 
         &:hover {
             color: #fff;
@@ -126,11 +128,15 @@ a {
     }
 }
 
+p + p {
+    margin-top: 1rem;
+}
+
 textarea {
     overflow: auto;
 }
 
-input[type="text"], input[type="mail"], input[type="password"], input[type="date"], textarea{
+.select, input[type="text"], input[type="mail"], input[type="password"], input[type="date"], textarea{
     display: flex;
     align-self: stretch;
     background: #FFFFFF;
@@ -140,8 +146,9 @@ input[type="text"], input[type="mail"], input[type="password"], input[type="date
     padding: 13px 20px;
     color: $color;
     resize: none;
-    overflow: hidden;
     height: 43px;
+    min-width: 260px;
+    position: relative;
 
     &:focus {
         border: $border-accent;
@@ -156,12 +163,81 @@ input[type="text"], input[type="mail"], input[type="password"], input[type="date
     }
 }
 
+.select {
+    cursor: pointer;
+    padding-right: 50px;
+
+    &::before {
+        content: '';
+        height: 15px;
+        width: 15px;
+        position: absolute;
+        top: 14px;
+        right: 20px;
+        @include background-contain;
+        background-image: url('/storage/img/icons/chevron-down.svg');
+    }
+
+    &.active {
+        &::before {
+            background-image: url('/storage/img/icons/chevron-up.svg');
+        }
+    }
+
+    .text {
+        color: $color-opacity;
+        &.active {
+            color: $color;
+        }
+    }
+
+    .list_option {
+        display: none;
+        @include flex-column;
+        position: absolute;
+        top: 50px;
+        left: 0;
+        width: 100%;
+        padding: 13px 20px;
+        border-radius: 10px;
+        background-color: rgba($color: $background-color, $alpha: 0.7);
+        box-shadow: 0 0 32px rgba(0, 0, 0, 0.3);
+        @include backdrop_blur;
+        z-index: 9998;
+
+        .option {
+            cursor: pointer;
+            &:hover {
+                color: $accent;
+            }
+
+            & + .option {
+                margin-top: 13px;
+            }
+        }
+    }
+}
+
 input[type="submit"] {
     @include button;
 
     &.button_small {
         @include button_small;
     }
+    &:disabled {
+        opacity: 0.5;
+        cursor: default;
+    }
+}
+
+input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    opacity: 0;
 }
 
 input:-webkit-autofill {
@@ -172,6 +248,7 @@ input:-webkit-autofill {
 
 textarea {
     height: 129px;
+    overflow: hidden;
 }
 
 .switch_block {
@@ -226,6 +303,7 @@ textarea {
 
         &.active {
             @include neumorphism_low;
+            font-family: Rubik-medium;
             font-weight: 500;
             color: $accent;
         }
@@ -247,6 +325,7 @@ main {
     align-items: center;
     padding: 0 $padding;
     position: relative;
+    flex-grow: 1;
 
     section {
         @include flex-between;
@@ -282,21 +361,29 @@ footer {
     @include flex-center;
 }
 
-.flex-center {
-    @include flex-between;
-}
-
 .block_form {
     @include flex-column;
     align-items: flex-start;
 }
-form {
+.form_block {
     @include flex-column;
     @include neumorphism;
-    align-items: center;
+    align-items: stretch;
     align-self: stretch;
     padding: $padding-form;
     border-radius: $border-radius-low;
+
+    .title {
+        font-size: 18px;
+        line-height: 21px;
+        font-family: Rubik-medium;
+        font-weight: 500;
+        text-align: center;
+
+        & + .block_input {
+            margin-top: $padding-form;
+        }
+    }
 
     .block_input {
         @include flex-column;
@@ -306,7 +393,7 @@ form {
             align-self: center;
         }
 
-        input + input, input + textarea {
+        input + input, input + textarea, textarea + input, .input + .input {
             margin-top: $padding-form;
         }
 
@@ -321,6 +408,7 @@ form {
         input + a {
             margin-top: $padding-form;
         }
+
     }
 
     .block_form & {
@@ -455,6 +543,16 @@ form {
         
     }
 }
+.block_column {
+    @include flex-column;
+    align-items: flex-start;
+    
+    .block_column_content {
+        @include flex-between;
+        margin-top: $padding-low;
+        align-self: stretch;
+    }
+}
 #loader {
     display: none;
     position: fixed;
@@ -470,10 +568,261 @@ form {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(241, 245, 248, 0.5);
+    background-color: rgba($color: $background-color, $alpha: .5);
     @include backdrop_blur;
     display: none;
     background-image: url('/storage/img/icons/logo/logo_loader.svg');
     @include background-contain;
     background-size: 10%;
+    animation-duration: 1.4s;
+    animation-name: loader;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+@keyframes loader {
+    0% {
+        background-color: rgba($color: $background-color, $alpha: .5);
+    }
+  
+    50% {
+        background-color: rgba($color: $accent, $alpha: .08)
+    }
+
+    100% {
+        background-color: rgba($color: $background-color, $alpha: .5);
+    }
+}
+
+.specialties {
+
+    .block_form {
+
+        h1 + .block {
+            margin-top: $padding-low;
+        }
+
+        .block {
+            @include flex-column;
+            @include neumorphism;
+            align-items: center;
+            align-self: stretch;
+            padding: $padding-form;
+            border-radius: $border-radius-low;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .switches {
+            @include flex;
+            justify-content: space-around;
+            align-items: center;
+            align-self: stretch;
+    
+            .switch_block2 + .switch_block2 {
+                margin-left: 10px;
+            }
+        }
+    
+        .list {
+            @include flex-center;
+            flex-direction: column;
+            margin-top: $padding-form;
+            align-self: stretch;
+            align-items: stretch;
+    
+            .specialty_qualifications {
+                @include flex-column;
+                padding: 15px;
+                border-radius: $border-radius-low;
+                border: $border-white;
+                font-size: 16px;
+                line-height: 19px;
+                transition: box-shadow $transition-object, border $transition-object;
+                cursor: pointer;
+
+                &:hover {
+                    @include neumorphism;
+    
+                    .code {
+                        color: $accent;
+                    }
+                } 
+
+                .specialty {
+                    @include flex-between;
+                    align-self: stretch;
+        
+                    span {
+                        margin-right: 15px;
+                    }
+        
+                    .code {
+                        width: 80px;
+                        text-align: center;
+                        font-family: Rubik-medium;
+                        font-weight: 500;
+                        @include transition-color;
+                    }
+    
+                    .name {
+                        width: 300px;
+                    }
+        
+                    .chevron {
+                        width: 15px;
+                        height: 15px;
+                        @include background-contain;
+                        background-image: url('/storage/img/icons/chevron-down.svg');
+                        margin-right: 15px;
+                    }
+    
+                    & + .specialty {
+                        margin-top: $padding-form;
+                    }
+    
+                }
+
+                .qualifications_block {
+                    display: none;
+                    margin-top: $padding-form;
+                    
+                    & + .qualifications_block {
+                        border-top: 1px solid rgba($color: $color, $alpha: .5);
+                        padding-top: $padding-form;
+                    }
+
+                    .qualifications {
+                        @include flex-column;
+                        align-self: stretch;
+
+                        .info {
+                            @include flex-column;
+                            max-width: 460px;
+
+                            .sign {
+                                margin-bottom: 10px;
+                            }
+                        }
+
+                        .combine {
+                            @include flex-between;
+                            margin-top: $padding-form;
+
+                            .info {
+                                max-width: 210px;
+                            }
+
+                        }
+
+                    }
+                    
+                }
+
+                &.active {
+
+                    .specialty {
+                        .chevron {
+                            width: 15px;
+                            height: 15px;
+                            @include background-contain;
+                            background-image: url('/storage/img/icons/chevron-up.svg');
+                        }
+                    }
+                }
+
+            }
+    
+        }
+
+    }
+
+}
+
+.info {
+
+    .block_info {
+
+        .block {
+            @include flex-between;
+            border-radius: $border-radius-low;
+            @include neumorphism;
+            padding: $padding;
+            flex-direction: column;
+            align-self: stretch;
+            align-items: stretch;
+            position: relative;
+            overflow: hidden;
+
+            .title {
+                @include flex-between;
+
+                .switch_block {
+                    margin-left: 20px;
+                }
+            }
+
+            .list_block {
+                @include flex-column;
+                margin-top: 30px;
+                align-items: flex-start;
+                justify-content: space-between;
+
+                .list {
+                    display: flex;
+                    align-items: center;
+
+                    .icon {
+                        margin-right: 20px;
+                    }
+                }
+
+                .list + .list {
+                    margin-top: 25px;
+                }
+            }
+
+            &.documents {
+                flex-grow: 1;
+
+                .list_block {
+    
+                    .list {
+    
+                        .icon {
+                            height: 25px;
+                            width: 25px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+#cookie {
+    display: none;
+    position: fixed;
+    bottom: $padding;
+    left: 0;
+    width: 100%;
+
+    .block_cookie {
+        @include flex-between;
+        width: 550px;
+        padding: $padding-form;
+        border-radius: $border-radius-low;
+        background-color: rgba($color: #fff, $alpha: 0.7);
+        @include backdrop_blur;
+        border: $border-accent-opacity;
+        box-shadow: $box-shadow-accent;
+        margin: 0 auto;
+
+        .text {
+            margin-right: $padding-low;
+        }
+
+        .button {
+            flex-shrink: 0;
+        }
+    }
 }

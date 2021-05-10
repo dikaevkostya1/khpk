@@ -2,7 +2,7 @@
 @section('title', 'Вход')
 @section('content')
 <section>
-    <form method="post" action="/login/admin">
+    <form method="post" action="/login/admin" class="form_block">
         @csrf
         <input type="text" placeholder="Логин" name="login">
         <input type="password" placeholder="Пароль" name="password">

@@ -4,7 +4,7 @@
 <section>
     <div class="block_form">
     <h1>Авторизация</h1>
-    <form method="post" action="/login/enrolle">
+    <form method="post" action="/login/enrolle" class="form_block">
         @csrf
         <div class="block_input">
             <input type="text" placeholder="Логин или email" name="login">
@@ -16,7 +16,7 @@
     </div>
     <div class="block_form">
         <h2>Еще не регистрировались?</h2>
-    <form action="/request" method="post">
+    <form action="/request" method="post" class="form_block">
         @csrf
         <div class="block_input">
             <input type="text" placeholder="Ваше имя" name="name">
@@ -25,17 +25,8 @@
         </div>
     </form>
     </div>
-    
-    @if ($errors->all())
-        <div id="message" style="display: block;">
-            <h3>Сообщение</h3>
-            <div class="message">
-            @foreach($errors->all() as $error)
-                <p>{{ $error }}</p>
-            @endforeach
-            </div>
-            <a onclick="close_message()">Закрыть</a>
-        </div>
-    @endif
+    @include('layouts.message', [
+        'title' => 'Ошибка'
+    ])
 </section>
 @endsection

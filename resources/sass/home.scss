@@ -14,72 +14,6 @@
         @include background-text;
     }
 
-    .block_form {
-
-        .switches {
-            @include flex-center;
-    
-            .switch_block2 + .switch_block2 {
-                margin-left: 10px;
-            }
-        }
-    
-        .list {
-            @include flex-center;
-            flex-direction: column;
-            margin-top: $padding-form;
-            align-self: stretch;
-    
-            .specialty + .specialty {
-                margin-top: 15px;
-            }
-
-            .specialty {
-                @include flex-between;
-                align-self: stretch;
-                padding: 15px;
-                border-radius: $border-radius-low;
-                border: $border-white;
-                font-size: 16px;
-                line-height: 19px;
-                transition: box-shadow $transition-object;
-                cursor: pointer;
-    
-                span {
-                    margin-right: 15px;
-                }
-    
-                .code {
-                    width: 80px;
-                    text-align: center;
-                    font-family: Rubik-medium;
-                    font-weight: 500;
-                    @include transition-color;
-                }
-
-                .name {
-                    width: 300px;
-                }
-    
-                .chevron {
-                    width: 15px;
-                    height: 15px;
-                    @include background-contain;
-                    background-image: url('/storage/img/icons/chevron-down.svg');
-                }
-            }
-    
-            .specialty:hover {
-                @include neumorphism;
-
-                .code {
-                    color: $accent;
-                }
-            } 
-        }
-
-    }
-
     .illustration {
         width: 500px;
         height: 450px;
@@ -89,67 +23,10 @@
 }
 
 #info {
-    @include flex-column;
-    align-items: flex-start;
 
     .block_info {
-        @include flex;
-        margin-top: $padding-low;
-        align-self: stretch;
 
         .block {
-            @include flex-between;
-            border-radius: $border-radius-low;
-            @include neumorphism;
-            padding: $padding;
-            flex-direction: column;
-            align-self: stretch;
-            align-items: stretch;
-            position: relative;
-            overflow: hidden;
-
-            .title {
-                @include flex-between;
-
-                .switch_block {
-                    margin-left: 20px;
-                }
-            }
-
-            .list_block {
-                @include flex-column;
-                margin-top: 30px;
-                align-items: flex-start;
-                justify-content: space-between;
-
-                .list {
-                    display: flex;
-                    align-items: center;
-
-                    .icon {
-                        margin-right: 20px;
-                    }
-                }
-
-                .list + .list {
-                    margin-top: 25px;
-                }
-            }
-
-            &.documents {
-                flex-grow: 1;
-
-                .list_block {
-    
-                    .list {
-    
-                        .icon {
-                            height: 25px;
-                            width: 25px;
-                        }
-                    }
-                }
-            }
 
             &.commission {
                 
@@ -212,13 +89,8 @@
 }
 
 #contacts {
-    @include flex-column;
-    align-items: flex-start;
 
     .block_contacts {
-        @include flex;
-        margin-top: $padding-low;
-        align-self: stretch;
 
         .block {
             @include flex-between;
@@ -261,3 +133,6 @@
         }
     }
 }
+
+
+    

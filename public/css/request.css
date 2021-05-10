@@ -1,7 +1,135 @@
-#request form .block_input {
+#request form {
+  width: 100%;
+  align-items: stretch;
+}
+
+#request .code_block .code {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#request .code_block .code input {
+  width: 50px;
+  min-width: 0;
+  caret-color: transparent;
+}
+
+#request .code_block .code input + input {
+  margin-top: 0;
+  margin-left: 20px;
+}
+
+#request .code_block .text {
+  width: 260px;
+  margin-top: 20px;
+}
+
+#request .code_block .button_small {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#request .code_block .timer_block {
+  display: none;
+  margin-top: 20px;
+  text-align: center;
+}
+
+#request .date_time_block {
+  margin-top: 35px;
+}
+
+#request .title_block {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
+  margin-bottom: 35px;
+}
+
+#request .title_block .title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#request .title_block .title .stage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 35px;
+  padding: 10px 15px;
+  background: linear-gradient(268.89deg, #1E91FF -0.02%, #17DAE7 99.98%);
+  border-radius: 22px;
+  color: #fff;
+  border: 1px solid rgba(30, 145, 255, 0.2);
+}
+
+#request .title_block .switches {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#request .title_block .switches .switch_block + .switch_block {
+  margin-left: 20px;
+}
+
+#request .block_request {
+  display: flex;
+}
+
+#request .block_request .form_block {
+  flex-grow: 1;
+  justify-content: space-around;
+}
+
+#request .block_request .form_block + .form_block {
+  margin-top: 35px;
+}
+
+#request .block_request .slip {
+  flex-grow: 1;
+  margin-left: 35px;
+}
+
+#request .footnote {
+  margin-top: 35px;
+  display: flex;
+  align-items: center;
+}
+
+#request .footnote .text {
+  margin-left: 35px;
+}
+
+#request .footnote .text .title {
+  margin-bottom: 1rem;
+}
+
+#request .footnote .icon {
+  height: 35px;
+  fill: #1e91ff;
+  align-self: flex-start;
+}
+
+#request .apply_block {
+  display: none;
+  padding: 10px 15px;
+  border-radius: 30px;
+  border: 1px solid #1e91ff;
+  position: relative;
+  overflow: hidden;
+}
+
+#request .apply_block .apply {
+  width: 25px;
+  height: 25px;
+  fill: #1e91ff;
+  margin-right: 1rem;
+}
+
+#request #consent {
+  display: none;
 }
 

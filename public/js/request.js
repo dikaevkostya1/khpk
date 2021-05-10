@@ -97,23 +97,101 @@ $(function () {
   var form = $('#request form');
   form.on('submit', function (e) {
     e.preventDefault();
+    $('#loader').fadeIn(100);
+    $('#loader').append('<div class="ajax_loader"></div>');
+    $('#loader').children('.ajax_loader').fadeIn(200);
+    var data = new FormData(this);
+    $('#request form .select').each(function (key, element) {
+      data.append($(this).attr('id'), $(this).data('value'));
+    });
+    data.append('speciality_id', $('#request form .specialties').data('value'));
     $.ajax({
       type: "POST",
       url: '/ajax/request/push',
       enctype: 'multipart/form-data',
-      data: new FormData(this),
+      data: data,
       processData: false,
       contentType: false,
       success: function success(data) {
-        if (data.redirect == true) window.location.replace(data.redirect_url);else $('main').html(data.view);
+        if (data.redirect == true) window.location.replace(data.redirect_url);else {
+          $('body').html(data.view);
+          $('#loader').fadeOut(100);
+        }
       },
       error: function error(response) {
         var data = response.responseJSON.errors;
+        $('#loader').children('.ajax_loader').fadeOut(200);
+        setTimeout(function () {
+          $('#loader').children('.ajax_loader').remove();
+        }, 500);
         show_message(data);
       }
     });
     return false;
   });
+  $('#request form input[name="date_born"]').focusout(function () {
+    if ($(this).val().length == 10) {
+      var date = $(this).val().split('.');
+      var today = new Date();
+      var birthDate = new Date(date[2], date[1], date[0]);
+      var age = today.getFullYear() - birthDate.getFullYear();
+      var m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || m === 0 && today.getDate() < birthDate.getDate()) age--;
+      if (age < 18) $('#consent .download').attr('href', '/download/consent/consent.pdf');else $('#consent .download').attr('href', '/download/consent/consent18.pdf');
+      $('#consent').css('display', 'flex').hide().fadeIn(200);
+    } else $('#consent').css('display', 'flex').hide().fadeOut(200);
+  });
+  $('#request form input[name="date_born"]').mask('00.00.0000', {
+    clearIfNotMatch: true
+  });
+  $('#request form input[name="passport_date"]').mask('00.00.0000', {
+    clearIfNotMatch: true
+  });
+  $('#request form input[name="passport"]').mask('0000 000000', {
+    clearIfNotMatch: true
+  });
+  $('#request form input[name="education_ending"]').mask('0000', {
+    clearIfNotMatch: true
+  });
+  $('#request form input[name="education"]').mask('000000 0000000', {
+    clearIfNotMatch: true
+  });
+  $('#request form input[name="phone"]').mask('8 000 000 - 00 - 00', {
+    clearIfNotMatch: true
+  });
+  $('#request form .button_download input[type=file]').on('change', function () {
+    $('#request form .button_download').css('display', 'none');
+    $('#request form .apply_block').css('display', 'flex').hide().fadeIn(200);
+  });
+  $('#request form .code .input').keyup(function () {
+    if ($(this).is(':last-child') && this.value.length == this.maxLength) {
+      $(this).blur();
+    } else if (this.value.length == this.maxLength) {
+      $(this).next('.input').focus();
+    } else $(this).prev('.input').focus();
+  });
+  $(document).on('click', '#request form .specialties ', function (e) {
+    e.stopPropagation();
+  });
+
+  timer_click = function timer_click(url) {
+    $.get(url).done(function () {
+      $('#request form .timer_button').css('display', 'none');
+      $('#request form .timer_block').fadeIn(200);
+
+      var seconds = 60,
+          _int = setInterval(function () {
+        if (seconds > 0) {
+          seconds--;
+          $('#request form .timer_block .time').text(seconds);
+        } else {
+          clearInterval(_int);
+          $('#request form .timer_block').css('display', 'none');
+          $('#request form .timer_button').fadeIn(200);
+        }
+      }, 1000);
+    });
+  };
 });
 
 /***/ }),
