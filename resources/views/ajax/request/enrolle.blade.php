@@ -5,17 +5,34 @@
         <a href="/#info">Прием</a>
         <a href="/#contacts">Контакты</a>
     @endsection
+    @section('content_header')
+    @if (count($deadline_regis) > 0)
+    <div class="request_stage">
+        <div class="circle active">1</div>
+        <div class="line @if($request_stage == 1) active @elseif($request_stage > 1) full_active @endif"></div>
+        <div class="circle @if($request_stage >= 2) active @endif">2</div>
+        <div class="line @if($request_stage == 2) active @elseif($request_stage > 2) full_active @endif"></div>
+        <div class="circle @if($request_stage == 3) active @endif">3</div>
+    </div>
+    @endif
+    @endsection
 @endsection
 <section id="request">
     <form method="post" class="block_column">
         @csrf
         <div class="title_block">
+            @if (count($deadline_regis) > 0)
             <div class="title">
                 <div class="stage"><b>{{ $request_stage }} этап</b></div>
                 <h1 class="gradient">Регистрация</h1>
             </div>
             <input type="submit" value="Продолжить" disabled>
+            @else
+            <h1>Прием еще не начался</h1>
+            <a href="/" class="button">На главную</a>
+            @endif
         </div>
+        @if (count($deadline_regis) > 0)
         <div class="block_request">
             <div class="form_block">
                 <span class="title">Основные данные</span>
@@ -83,7 +100,8 @@
                 <h3 class="title">Согласие на обработку персональных данных</h3>
                 <span><a href="/download/request/consent.pdf" class="underlined download">Скачайте</a> и заполните форму, после отсканируйте или сфотографируйте и загрузите</span>
             </div>
-        </div>
+        </div>       
+        @endif
     </form>
 </section>
 <div id="loader"></div>

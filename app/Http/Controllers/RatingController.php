@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enrolle;
 use App\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +15,7 @@ class RatingController extends Controller
 
     public function index() {
         $id = Auth::user()->id;
-        $requests = Requests::where('enrolle_id', $id)->get();
+        $requests = Requests::where('enrolle_id', $id)->where('institution_id', request('institution', 1))->get();
         return view('rating', [
             'enrolle' => Auth::user(),
             'requests' => $requests

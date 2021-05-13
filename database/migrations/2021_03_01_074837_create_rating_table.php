@@ -16,7 +16,7 @@ class CreateRatingTable extends Migration
         Schema::create('rating', function (Blueprint $table) {
             $table->id();
             $table->integer('request_id')->unsigned();
-            $table->tinyInteger('average_score');
+            $table->float('average_score', 3, 2);
             $table->boolean('enrolment');
             $table->boolean('confirmation');
             $table->integer('institution_id')->unsigned();

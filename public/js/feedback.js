@@ -119,6 +119,9 @@ $(function () {
     });
     return false;
   });
+  $('#request form input[name="phone"]').mask('8 000 000 - 00 - 00', {
+    clearIfNotMatch: true
+  });
 });
 
 /***/ }),

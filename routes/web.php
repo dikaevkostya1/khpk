@@ -59,5 +59,6 @@ Route::get('/logout/admin', 'LoginAdminController@logout');
 Route::prefix('admin')->group(function () {
     Route::get('', 'AdminPanelController@index')->name('admin');
     Route::post('/deadline', 'AdminPanelController@deadline');
+    Route::get('/export/request', 'AdminPanelController@export_request');
 });
 

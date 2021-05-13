@@ -9,15 +9,6 @@
         @include('layouts.button_back')
         @parent
     @endsection
-    @section('content_header')
-    <div class="request_stage">
-        <div class="circle active">1</div>
-        <div class="line @if($request_stage == 1) active @elseif($request_stage > 1) full_active @endif"></div>
-        <div class="circle @if($request_stage >= 2) active @endif">2</div>
-        <div class="line @if($request_stage == 2) active @elseif($request_stage > 2) full_active @endif"></div>
-        <div class="circle @if($request_stage == 3) active @endif">3</div>
-    </div>
-    @endsection
 @endsection
 @section('content')
     @switch($request_stage)

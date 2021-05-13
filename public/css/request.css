@@ -1,8 +1,3 @@
-#request form {
-  width: 100%;
-  align-items: stretch;
-}
-
 #request .code_block .code {
   display: flex;
   justify-content: center;
@@ -40,19 +35,6 @@
   margin-top: 35px;
 }
 
-#request .title_block {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 35px;
-}
-
-#request .title_block .title {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 #request .title_block .title .stage {
   display: flex;
   justify-content: center;
@@ -62,17 +44,6 @@
   background: linear-gradient(268.89deg, #1E91FF -0.02%, #17DAE7 99.98%);
   border-radius: 22px;
   color: #fff;
-  border: 1px solid rgba(30, 145, 255, 0.2);
-}
-
-#request .title_block .switches {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-#request .title_block .switches .switch_block + .switch_block {
-  margin-left: 20px;
 }
 
 #request .block_request {
@@ -113,20 +84,11 @@
   align-self: flex-start;
 }
 
-#request .apply_block {
-  display: none;
-  padding: 10px 15px;
-  border-radius: 30px;
-  border: 1px solid #1e91ff;
-  position: relative;
-  overflow: hidden;
-}
-
-#request .apply_block .apply {
-  width: 25px;
-  height: 25px;
+#request .select_ok {
+  height: 26px;
+  width: 26px;
+  margin: 7px;
   fill: #1e91ff;
-  margin-right: 1rem;
 }
 
 #request #consent {

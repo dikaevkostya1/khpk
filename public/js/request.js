@@ -95,6 +95,7 @@
 
 $(function () {
   var form = $('#request form');
+  var specialties = [];
   form.on('submit', function (e) {
     e.preventDefault();
     $('#loader').fadeIn(100);
@@ -104,7 +105,7 @@ $(function () {
     $('#request form .select').each(function (key, element) {
       data.append($(this).attr('id'), $(this).data('value'));
     });
-    data.append('speciality_id', $('#request form .specialties').data('value'));
+    data.append('speciality_id', JSON.stringify(specialties));
     $.ajax({
       type: "POST",
       url: '/ajax/request/push',
@@ -159,10 +160,6 @@ $(function () {
   $('#request form input[name="phone"]').mask('8 000 000 - 00 - 00', {
     clearIfNotMatch: true
   });
-  $('#request form .button_download input[type=file]').on('change', function () {
-    $('#request form .button_download').css('display', 'none');
-    $('#request form .apply_block').css('display', 'flex').hide().fadeIn(200);
-  });
   $('#request form .code .input').keyup(function () {
     if ($(this).is(':last-child') && this.value.length == this.maxLength) {
       $(this).blur();
@@ -170,8 +167,25 @@ $(function () {
       $(this).next('.input').focus();
     } else $(this).prev('.input').focus();
   });
-  $(document).on('click', '#request form .specialties ', function (e) {
+  $(document).on('click', '#request form .select_button', function (e) {
     e.stopPropagation();
+
+    if ($(this).hasClass('active')) {
+      $(this).removeClass('active');
+      specialties.splice(specialties.indexOf($(this).data('value')), 1);
+    } else {
+      $(this).addClass('active');
+      specialties.push($(this).data('value'));
+      $(this).closest('.specialties').data('value', specialties);
+    }
+
+    if (specialties.length == 0) {
+      $(this).closest('.specialties').attr('data-input', false);
+      $('form input[type="submit"]').attr('disabled', 'disabled');
+    } else {
+      $(this).closest('.specialties').attr('data-input', true);
+      $('form input[type="submit"]').removeAttr('disabled');
+    }
   });
 
   timer_click = function timer_click(url) {

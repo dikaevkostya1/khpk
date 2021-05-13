@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Commission;
 use App\Deadline;
+use App\Exports\RequestExport;
+use App\Helpers\CommissionHelpers;
+use App\Helpers\DeadlineHelpers;
+use App\Requests;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminPanelController extends Controller
 {
@@ -14,24 +20,19 @@ class AdminPanelController extends Controller
         $this->middleware('auth_admin');
         $this->now = Carbon::now();
         $this->year = $this->now->format('Y');
+        $this->deadline = DeadlineHelpers::get_info();
     }
 
     public function index(Request $request) {
         $admin = Auth::guard('admin')->user();
-        $deadline = Deadline::where('institution_id', $admin->institution_id)
-                            ->where('ending', '>=', $this->now)
-                            ->where('format_id', request('d', 1))
-                            ->where('year', $this->year)
-                            ->first();
-        if ($deadline) {
-            $deadline->start = Carbon::parse($deadline->start);
-            $deadline->ending = Carbon::parse($deadline->ending);
-        }
+        $commission = CommissionHelpers::get();
         return view('admin.admin', [
-            'now' => $this->now,
+            'year' => $this->year,
             'admin' => $admin,
-            'deadline' => $deadline,
-            'format' => $request->d
+            'deadline' => $this->deadline,
+            'requests' => Requests::where('institution_id', $admin->institution_id)->get(),
+            'requests_new' => Requests::where('institution_id', $admin->institution_id)->where('status_id', 1)->get(),
+            'commission' => $commission
         ]);
     }
 
@@ -57,5 +58,10 @@ class AdminPanelController extends Controller
             $deadline->save();
         }
         return redirect()->back();
+    }
+
+    public function export_request() {
+        $admin = Auth::guard('admin')->user();
+        return Excel::download(new RequestExport($admin->institution_id), 'заявки.xlsx');
     }
 }

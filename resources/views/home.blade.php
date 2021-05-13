@@ -26,6 +26,16 @@
     @endif
 @endsection
 @section('content')
+<section class="mobile_header">
+    <div id="logo">
+        <div class="logo_block">
+            <div class="logo">
+                @svg('/app/public/img/icons/logo/logo.svg', 'img')
+                <span class="text">Хакасский<br>политехнический<br>колледж</span>
+            </div>
+        </div>
+    </div>
+</section>
 <section id="banner">
     <div class="block_form">
         <h1 class="gradient">
@@ -66,26 +76,28 @@
                 @foreach ($specialties as $specialty)
                 <div class="specialty_qualifications">
                     <div class="specialty">
+                        <div class="specialty_text flex-center">
                         <span class="code">{{ $specialty->code }}</span>
                         <span class="name">{{ $specialty->name }}</span>
+                        </div>
                         <div class="chevron"></div>
                     </div>
                     @foreach ($specialty->qualifications as $qualification)
                     <div class="qualifications_block">
                         <div class="qualifications">
                             <div class="info">
-                                <span class="sign accent"><b>Квалификация</b></span>
-                                <span>{{ $qualification->qualification }}</span>
+                                <span class="accent"><b>{{ $qualification->qualification }}</b></span>
                             </div>
                             <div class="combine">
                                 <div class="info">
-                                    <span class="sign accent"><b>Срок обучения</b></span>
+                                    <span class="sign"><b>Срок обучения</b></span>
                                     <span>{{ $qualification->term_study }}</span>
                                 </div>
                                 <div class="info">
-                                    <span class="sign accent"><b>Количество мест</b></span>
+                                    <span class="sign"><b>Кол-во мест</b></span>
                                     <span>{{ $qualification->number_seats }} мест</span>
                                 </div>
+                                <span></span>
                             </div>
                         </div>
                     </div>
@@ -298,6 +310,7 @@
     <div class="block_feedback block_column_content">
         <form method="post" class="form_block">
             @csrf
+            <input type="hidden" name="institution_id" value="{{ request('institution', 1) }}">
             <span class="title">Напишите сообщение</span>
             <div class="block_input">
                 <input type="text" placeholder="Ваше имя" name="name" maxlength="255" class="input">

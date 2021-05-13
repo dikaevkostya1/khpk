@@ -20,11 +20,12 @@ class Requests extends Model
         'speciality_id',
         'status_id',
         'remember_token',
+        'institution_id'
     ];
 
     public function speciality()
     {
-        return $this->belongsTo('App\Specialties','speciality_id','id');
+        return $this->belongsTo('App\Qualifications','speciality_id','id');
     }
 
     public function status()

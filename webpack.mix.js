@@ -19,3 +19,4 @@ mix.sass('resources/sass/app.scss', 'public/css').version();
 mix.sass('resources/sass/home.scss', 'public/css').version();
 mix.sass('resources/sass/request.scss', 'public/css').version();
 mix.sass('resources/sass/rating.scss', 'public/css').version();
+mix.sass('resources/sass/admin.scss', 'public/css').version();

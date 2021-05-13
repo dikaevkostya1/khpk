@@ -1,4 +1,5 @@
 $laptop-width: 1280px;
+$mobile-width: 800px;
 
 $background-color: #f1f5f8;
 $color: #3e3e3e;
@@ -9,18 +10,13 @@ $accent-opacity: rgba(30, 145, 255, 0.2);
 $padding: 50px;
 $padding-low: 35px;
 $padding-form: 20px;
-$padding-mobile: 20px;
-$padding-low-mobile: 10px;
 
 $width-section: 1180px;
-$width-section-mobile: 100%;
 
 $height-header: 180px;
-$height-header-mobile: 100px;
 
 $border-radius: 30px;
 $border-radius-low: 20px;
-$border-radius-mobile: 20px;
 
 $border-white: 1px solid rgba(255, 255, 255, 0.2);
 $border-accent: 1px solid $accent;
@@ -128,4 +124,12 @@ $transition-object: 0.3s cubic-bezier(0.86, 0, 0.07, 1);
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
+}
+@function fontSize($f-min, $f-max, $v-min, $v-max) {
+    $k: ($f-max - $f-min)/($v-max - $v-min);
+    $b: $f-min - $k * $v-min;
+  
+    $b: $b * 1px;
+  
+    @return calc( #{$k} * 100vw + #{$b} );
 }

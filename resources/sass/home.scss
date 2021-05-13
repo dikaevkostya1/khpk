@@ -1,10 +1,19 @@
 @import 'layouts/variables.scss';
 #banner {
+    @media screen and (max-width: $mobile-width){
+        flex-direction: column-reverse;
+    }
+
     .illustration {
         width: 690px;
         height: 500px;
         background-image: url('/storage/img/illustrations/banner.svg');
         @include background-contain;
+
+        @media screen and (max-width: $mobile-width){
+            width: 100%;
+            height: calc(100vw * (500 / 650) - #{$padding-low * 2});
+        }
     }
 }
 
@@ -19,6 +28,11 @@
         height: 450px;
         background-image: url('/storage/img/illustrations/gears.svg');
         @include background-contain;
+
+        @media screen and (max-width: $mobile-width){
+            width: 100%;
+            height: calc(100vw * (450 / 500) - #{$padding-low * 2});
+        }
     }
 }
 
@@ -27,17 +41,6 @@
     .block_info {
 
         .block {
-
-            &.commission {
-                
-                .date_time_block {
-                    margin-top: $padding-low;
-                }
-
-                .status_block {
-                    margin-top: $padding-low;
-                }
-            }
 
             &.request {
                 flex-grow: 1;
@@ -52,6 +55,7 @@
                         .icon {
                             height: 40px;
                             width: 40px;
+                            flex-shrink: 0;
                         }
 
                         .text {
@@ -72,19 +76,16 @@
                 }
             }
 
-            .status_block {
-                @include flex-center;
-                height: 30px;
+            & + .block {
+                margin-left: $padding-low;
 
-                .status {
-                    margin-left: 10px;
+                @media screen and (max-width: $mobile-width){
+                    margin-left: 0;
+                    margin-top: $padding-low;
                 }
             }
         }
 
-        .block + .block {
-            margin-left: $padding-low;
-        }
     }
 }
 

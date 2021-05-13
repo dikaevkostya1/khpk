@@ -13,12 +13,8 @@ require('./assets/select');
 require('./assets/mask');
 require('./assets/specialty');
 require('./assets/jquery.cookie');
-require('./assets/support_css');
 require('./assets/form');
-
-// if (!SupportsCSS('display', 'flex')) {
-//    document.location.replace('/support_browser');
-//}
+require('./assets/file');
 
 $(function() {
     if(!$.cookie('cookie_apply')) $('#cookie').fadeIn(200);

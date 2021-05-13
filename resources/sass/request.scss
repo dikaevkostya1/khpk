@@ -1,11 +1,6 @@
 @import 'layouts/variables.scss';
 #request {
 
-    form {
-        width: 100%;
-        align-items: stretch;
-    }
-
     .code_block {
         .code {
             @include flex-center;
@@ -43,11 +38,8 @@
     }
 
     .title_block {
-        @include flex-between;
-        margin-bottom: $padding-low;
 
         .title {
-            @include flex-center;
 
             .stage {
                 @include flex-center;
@@ -56,17 +48,9 @@
                 @include gradient;
                 border-radius: 22px;
                 color: #fff;
-                border: $border-accent-opacity;
             }
         }
 
-        .switches {
-            @include flex-center;
-
-            .switch_block + .switch_block {
-                margin-left: 20px;
-            }
-        }
     }
 
     .block_request {
@@ -108,21 +92,11 @@
         
     }
 
-    .apply_block {
-        display: none;
-        padding: 10px 15px;
-        border-radius: 30px;
-        border: $border-accent;
-        position: relative;
-        overflow: hidden;
-        
-        .apply {
-            width: 25px;
-            height: 25px;
-            fill: $accent;
-            margin-right: 1rem;
-            
-        }
+    .select_ok {
+        height: 26px;
+        width: 26px;
+        margin: 7px;
+        fill: $accent;
     }
 
     #consent {

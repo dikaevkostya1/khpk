@@ -16,7 +16,7 @@ class CreateCertificatesTable extends Migration
         Schema::create('certificates', function (Blueprint $table) {
             $table->id();
             $table->string('subject');
-            $table->tinyInteger('evaluation');
+            $table->tinyInteger('evaluation', 1);
             $table->integer('enrolle_id')->unsigned();
             $table->timestamps();
         });

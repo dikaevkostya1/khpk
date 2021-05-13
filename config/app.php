@@ -175,6 +175,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        Maatwebsite\Excel\ExcelServiceProvider::class
+
     ],
 
     /*
@@ -227,7 +229,9 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'SpecialtiesHelpers' => App\Helpers\SpecialtiesHelpers::class,
-        'DeadlineHelpers' => App\Helpers\DeadlineHelpers::class
+        'DeadlineHelpers' => App\Helpers\DeadlineHelpers::class,
+        'CommissionHelpers' => App\Helpers\CommissionHelpers::class,
+        'Excel' => \Maatwebsite\Excel\Facades\Excel::class
 
     ],
 

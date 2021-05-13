@@ -4,13 +4,25 @@
         <a href="/#info">Прием</a>
         <a href="/#contacts">Контакты</a>
     @endsection
+    @section('content_header')
+    @if(count($requests) == 0)
+    <div class="request_stage">
+        <div class="circle active">1</div>
+        <div class="line @if($request_stage == 1) active @elseif($request_stage > 1) full_active @endif"></div>
+        <div class="circle @if($request_stage >= 2) active @endif">2</div>
+        <div class="line @if($request_stage == 2) active @elseif($request_stage > 2) full_active @endif"></div>
+        <div class="circle @if($request_stage == 3) active @endif">3</div>
+    </div>
+    @endif
+    @endsection
 @endsection
 <section id="request">
     <form method="post" class="block_column">
         @csrf
+        <input type="hidden" name="institution_id" value="{{ request('institution', 1) }}">
         <div class="title_block">
             <div class="title">
-                <div class="stage"><b>{{ $request_stage }} этап</b></div>
+                @if(count($requests) == 0)<div class="stage"><b>{{ $request_stage }} этап</b></div>@endif
                 <h1 class="gradient">Отправка заявки</h1>
             </div>
             <div class="switches">
@@ -46,7 +58,7 @@
                     </div>
                 </div>
             </div>
-            <div class="specialties slip">
+            <div class="specialties slip input">
                 <div class="block_form">
                     <div class="block">
                         <div class="switches">
@@ -57,6 +69,7 @@
                             </div>
                         </div>
                         <div class="list">
+                            @if(count($specialties) > 0)
                             @foreach ($specialties as $specialty)
                             <div class="specialty_qualifications">
                                 <div class="specialty">
@@ -68,30 +81,35 @@
                                 <div class="qualifications_block">
                                     <div class="qualifications">
                                         <div class="info">
-                                            <span class="sign accent"><b>Квалификация</b></span>
-                                            <span>{{ $qualification->qualification }}</span>
+                                            <span class="accent"><b>{{ $qualification->qualification }}</b></span>
                                         </div>
                                         <div class="combine">
                                             <div class="info">
-                                                <span class="sign accent"><b>Срок обучения</b></span>
+                                                <span class="sign"><b>Срок обучения</b></span>
                                                 <span>{{ $qualification->term_study }}</span>
                                             </div>
                                             <div class="info">
-                                                <span class="sign accent"><b>Количество мест</b></span>
+                                                <span class="sign"><b>Количество мест</b></span>
                                                 <span>{{ $qualification->number_seats }} мест</span>
                                             </div>
-                                            @if(!in_array($qualification->id, $requests)) 
-                                            <a class="button">Выбрать</a>
+                                            @if(in_array($qualification->id, $requests)) 
+                                            @svg('/app/public/img/icons/ok-circle.svg', 'select_ok')
+                                            @else
+                                            <div class="select_button" data-value="{{ $qualification->id }}"></div>
                                             @endif
                                         </div>
-                                        @if(in_array($qualification->id, $requests)) 
-                                        <span>Вы подали заявку на эту специальность</span>
-                                        @endif
                                     </div>
                                 </div>
                                 @endforeach
                             </div>
                             @endforeach
+                            @else
+                            <div class="specialty_qualifications">
+                                <div class="flex-center">
+                                    <span>Не найдено</span>
+                                </div>
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -107,20 +125,28 @@
             </div>
         </div>
         @else
-        <h1>Прием на @if(request('format', 1) == 1) очное @else заочное @endif еще не начался</h1>
-        <div class="date_time_block">
-            <div class="block_circle from">
-                <span class="text">{{ $deadline_info->start }}</span>
-                <span class="sign">{{ $deadline_info->start_sign }}</span>
-            </div>
-            <div class="jump">
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-            </div>
-            <div class="block_circle">
-                <span class="text">{{ $deadline_info->ending }}</span>
-                <span class="sign">{{ $deadline_info->ending_sign }}</span>
+        <div class="info">
+            <div class="block_info block_column_content">
+                <div class="block">
+                    <div class="title">
+                        <span class="large"><b>Прием на @if(request('format', 1) == 1) очное @else заочное @endif еще не начался</b></span>
+                    </div>
+                    <div class="date_time_block">
+                        <div class="block_circle from">
+                            <span class="text">{{ $deadline_info->start }}</span>
+                            <span class="sign">{{ $deadline_info->start_sign }}</span>
+                        </div>
+                        <div class="jump">
+                            <div class="circle"></div>
+                            <div class="circle"></div>
+                            <div class="circle"></div>
+                        </div>
+                        <div class="block_circle">
+                            <span class="text">{{ $deadline_info->ending }}</span>
+                            <span class="sign">{{ $deadline_info->ending_sign }}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         @endif

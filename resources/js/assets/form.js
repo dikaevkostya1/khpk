@@ -1,5 +1,5 @@
 $(function() {
-    $('form .input').change(function() {
+    $(document).change('form .input', function() {
         $('form .input').each(function(index, element){
             if ($(element).val() != '' || $(element).data('value')) $(element).attr('data-input', true);
             else $(element).attr('data-input', false);

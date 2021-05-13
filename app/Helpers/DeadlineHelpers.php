@@ -41,7 +41,12 @@ class DeadlineHelpers
     }
 
     public function start_deadline() {
-        $deadline = $this->deadline->where('start', '<=', Carbon::now())->first();
+        $deadline = $this->deadline->where('start', '<=', $this->now)->first();
+        return $deadline;
+    }
+
+    public function regis_deadline() {
+        $deadline = Deadline::where('start', '<=', $this->now)->where('ending', '>=', $this->now)->where('year', $this->now->format('Y'))->get();
         return $deadline;
     }
 
@@ -53,6 +58,11 @@ class DeadlineHelpers
     public static function get() {
         $class = new DeadlineHelpers();
         return $class->start_deadline();
+    }
+
+    public static function get_regis() {
+        $class = new DeadlineHelpers();
+        return $class->regis_deadline();
     }
 
 }

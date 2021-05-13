@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>@yield('title', 'ХПК Абитуриент')</title>
     <link rel="shortcut icon" href="/storage/img/favicon.svg">
@@ -12,8 +12,11 @@
     @stack('scripts')
 </head>
 <body>
-    <header>
+    <header class="laptop">
         @include('layouts.header')
+    </header>
+    <header class="mobile">
+        @include('layouts.header_mobile')
     </header>
     <main>
         @yield('content')
@@ -25,7 +28,7 @@
         <div class="block_cookie">
             <div class="text">
                 <p><span class="accent middle"><b>Мы используем файлы cookie</b></span></p>
-                <p><span>Продолжая пользоваться сайтом, вы соглашаетесь<br>с использованием файлов cookie.</span></p>
+                <p><span>Продолжая пользоваться сайтом, вы соглашаетесь с использованием файлов cookie.</span></p>
             </div>
             <a class="button">Хорошо</a>
         </div>

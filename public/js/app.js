@@ -11009,12 +11009,9 @@ __webpack_require__(/*! ./assets/specialty */ "./resources/js/assets/specialty.j
 
 __webpack_require__(/*! ./assets/jquery.cookie */ "./resources/js/assets/jquery.cookie.js");
 
-__webpack_require__(/*! ./assets/support_css */ "./resources/js/assets/support_css.js");
+__webpack_require__(/*! ./assets/form */ "./resources/js/assets/form.js");
 
-__webpack_require__(/*! ./assets/form */ "./resources/js/assets/form.js"); // if (!SupportsCSS('display', 'flex')) {
-//    document.location.replace('/support_browser');
-//}
-
+__webpack_require__(/*! ./assets/file */ "./resources/js/assets/file.js");
 
 $(function () {
   if (!$.cookie('cookie_apply')) $('#cookie').fadeIn(200);
@@ -11047,6 +11044,27 @@ $(function () {
 
 /***/ }),
 
+/***/ "./resources/js/assets/file.js":
+/*!*************************************!*\
+  !*** ./resources/js/assets/file.js ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(function () {
+  $('form .button_download input[type=file]').on('change', function () {
+    if (this.files[0].size / 1024 / 1024 > 10) {
+      show_message(['Файл слишком большой. Максимальный размер 10mb']);
+      $(this).val('');
+    } else {
+      $('form .button_download').css('display', 'none');
+      $('form .apply_block').css('display', 'flex').hide().fadeIn(200);
+    }
+  });
+});
+
+/***/ }),
+
 /***/ "./resources/js/assets/form.js":
 /*!*************************************!*\
   !*** ./resources/js/assets/form.js ***!
@@ -11055,7 +11073,7 @@ $(function () {
 /***/ (function(module, exports) {
 
 $(function () {
-  $('form .input').change(function () {
+  $(document).change('form .input', function () {
     $('form .input').each(function (index, element) {
       if ($(element).val() != '' || $(element).data('value')) $(element).attr('data-input', true);else $(element).attr('data-input', false);
     });
@@ -11924,23 +11942,6 @@ $(function () {
 
 /***/ }),
 
-/***/ "./resources/js/assets/support_css.js":
-/*!********************************************!*\
-  !*** ./resources/js/assets/support_css.js ***!
-  \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-$(function () {
-  SupportsCSS = function SupportsCSS(property, value) {
-    var element = document.createElement('span');
-    if (element.style[property] !== undefined) element.style.cssText = property + ':' + value;else return false;
-    return element.style[property] === value;
-  };
-});
-
-/***/ }),
-
 /***/ "./resources/js/assets/switch.js":
 /*!***************************************!*\
   !*** ./resources/js/assets/switch.js ***!
@@ -12016,6 +12017,17 @@ try {
 
 /***/ }),
 
+/***/ "./resources/sass/admin.scss":
+/*!***********************************!*\
+  !*** ./resources/sass/admin.scss ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "./resources/sass/app.scss":
 /*!*********************************!*\
   !*** ./resources/sass/app.scss ***!
@@ -12061,9 +12073,9 @@ try {
 /***/ }),
 
 /***/ 0:
-/*!***************************************************************************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/home.scss ./resources/sass/request.scss ./resources/sass/rating.scss ***!
-  \***************************************************************************************************************************************************/
+/*!*******************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/home.scss ./resources/sass/request.scss ./resources/sass/rating.scss ./resources/sass/admin.scss ***!
+  \*******************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12071,7 +12083,8 @@ __webpack_require__(/*! /Users/kostya/sites/khpk/resources/js/app.js */"./resour
 __webpack_require__(/*! /Users/kostya/sites/khpk/resources/sass/app.scss */"./resources/sass/app.scss");
 __webpack_require__(/*! /Users/kostya/sites/khpk/resources/sass/home.scss */"./resources/sass/home.scss");
 __webpack_require__(/*! /Users/kostya/sites/khpk/resources/sass/request.scss */"./resources/sass/request.scss");
-module.exports = __webpack_require__(/*! /Users/kostya/sites/khpk/resources/sass/rating.scss */"./resources/sass/rating.scss");
+__webpack_require__(/*! /Users/kostya/sites/khpk/resources/sass/rating.scss */"./resources/sass/rating.scss");
+module.exports = __webpack_require__(/*! /Users/kostya/sites/khpk/resources/sass/admin.scss */"./resources/sass/admin.scss");
 
 
 /***/ })

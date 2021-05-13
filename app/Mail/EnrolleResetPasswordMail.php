@@ -29,7 +29,7 @@ class EnrolleResetPasswordMail extends Mailable
     public function build()
     {
         return $this->from('khpk19@gmail.com', 'Хакасский политехнический колледж')
-                    ->subject('Восттановление доступа')
+                    ->subject('Восстановление доступа')
                     ->view('emails.enrolle_reset_password')
                     ->with($this->enrolle);
     }

@@ -37,7 +37,7 @@ class RequestController extends Controller
                     'request_stage' => 3,
                     'deadline' => $this->deadline,
                     'requests' => $requests->toArray(),
-                    'deadline_info' => DeadlineHelpers::get_info()
+                    'deadline_info' => DeadlineHelpers::get_info(),
                 ];
             }
             else $data = [
@@ -50,7 +50,8 @@ class RequestController extends Controller
                 'surname' => $request->surname,
                 'mail' => $request->mail,
                 'educations' => Educations::all(),
-                'request_stage' => 1
+                'request_stage' => 1,
+                'deadline_regis' => DeadlineHelpers::get_regis()
             ];
         }
         return view('request', $data);
@@ -70,13 +71,16 @@ class RequestController extends Controller
             'mail.unique' => 'Эта почта уже используется',
             'mail.email' => 'Неккоректный Email',
             'passport.unique' => 'Такие паспортные данные уже используются',
-            'password.min' => 'Минимум 8 символов в пароле'
+            'password.min' => 'Минимум 8 символов в пароле',
+            'consent_data.max' => 'Файл слишком большой',
+            'consent_data.required' => 'Загрузите согласие',
         ];
         $rules = [
             'login' => 'unique:enrolle',
             'mail' => 'unique:enrolle|email',
             'passport' => 'unique:enrolle',
-            'password' => 'min:8'
+            'password' => 'min:8',
+            'consent_data' => 'required|max:10240',
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
@@ -169,13 +173,15 @@ class RequestController extends Controller
         $messages = [
             'speciality_id.unique' => 'Вы уже подали заявку на эту специальность',
             'documents.required' => 'Загрузите файл',
-            'speciality_id.required' => 'Выберите специальность'
+            'speciality_id.required' => 'Выберите специальность',
+            'documents.max' => 'Файл слишком большой',
         ];
         $rules = [ 
+            'documents' => 'required|max:10240',
             'speciality_id' => 'required', Rule::unique('requests')->where(function ($query) {
                 return $query->where('enrolle_id', Auth::user()->id);
             }),
-            'documents' => 'required'
+            
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if ($validator->fails()) {
@@ -185,14 +191,14 @@ class RequestController extends Controller
         }
         else {
             try {
-                foreach ($request->speciality_id as $speciality) {
-                    $request = Requests::create([
+                foreach (json_decode($request->speciality_id) as $speciality) {
+                    $requests = Requests::create([
                         'enrolle_id' => Auth::user()->id,
                         'speciality_id' => $speciality,
                         'path_documents' => Storage::disk('documents')->putFile('documents', $request->file('documents')),
-                        'institution_id' => request('institution', 1)
+                        'institution_id' => $request->institution_id
                     ]);
-                    $request->save();
+                    $requests->save();
                 }
                 return response()->json([
                     'redirect' => true,
@@ -201,7 +207,7 @@ class RequestController extends Controller
             }
             catch (Throwable $e) {
                 return response()->json([
-                    'errors' => ['Произошла ошибка на сервере']
+                    'errors' => ['Произошла ошибка на сервере'.$e]
                 ], 500);
             }
         }

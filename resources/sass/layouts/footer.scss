@@ -1,4 +1,7 @@
 footer { 
+    padding: $padding;
+    @include flex-center;
+
     section {
         @include flex-between;
         padding: 20px $padding-low;

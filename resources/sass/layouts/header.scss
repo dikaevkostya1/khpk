@@ -16,68 +16,6 @@ header {
         transform: translateY(-100%);
     }
 
-    #logo {
-        @include flex-center;
-        
-        .logo_block {
-            @include flex-center;
-
-            .img {
-                transition: fill .2s ease-in-out;
-                fill: $color;
-            }
-    
-            &:hover {
-                .img {
-                    fill: $accent;
-                }
-            }
-            
-            .logo {
-                @include flex-center;
-    
-                .img {
-                    height: 28px;
-                    width: 37px;
-                    
-                }
-        
-                .text {
-                    margin-left: 20px;
-                    font-family: Rubik-medium;
-                    font-weight: 500;
-                    font-size: 9px;
-                    line-height: 11px;
-                }
-            }
-    
-            .border {
-                margin-left: 30px;
-                width: 1px;
-                align-self: stretch;
-                background-color: $color;
-            }
-
-        }
-        
-        .button_back {
-            @include flex-center;
-            @include button_small;
-            margin-right: 30px;
-
-            &:hover {
-                box-shadow: none;
-            }
-
-            .chevron {
-                fill: #fff;
-                height: 1rem;
-                width: .8rem;
-                margin-right: 6px;
-            }
-        }
-    }
-
     .request_stage {
         @include flex-center;
 
@@ -111,8 +49,7 @@ header {
     .menu {
         @include flex-between;
         padding: 20px $padding-low;
-        width: 100%;
-        max-width: $width-section;
+        width: $width-section;
         height: 80px;
         border-radius: $border-radius;
         @include neumorphism;
@@ -127,16 +64,42 @@ header {
         }
     }
 
-    @media screen and (max-width: $laptop-width) {
-        height: $height-header-mobile;
-        padding: $padding-mobile;
-    
+    &.mobile {
+        display: none;
+        position: fixed;
+        bottom: $padding-low;
+        left: $padding-low;
+        top: auto;
+        height: 60px;
+        background: transparent;
+        filter: none;
+        padding: 0;
+        width: calc(100% - #{$padding-low * 2});
+
         .menu {
+            @include flex-between;
+            padding: 10px 15px;
             height: 60px;
-            border-radius: $border-radius-mobile;
-            max-width: none;
-            min-width: none;
-            padding: $padding-low-mobile;
+            width: 100%;
+            border-radius: $border-radius;
+            @include neumorphism;
+    
+        }
+
+        &.out {
+            transform: translateY(calc(100% + #{$padding-low * 2}));
         }
     }
+
+    @media screen and (max-width: 800px){
+        &.laptop {
+            display: none;
+        }
+
+        &.mobile {
+            display: block;
+            
+        }
+    }
+
 }

@@ -1,7 +1,16 @@
 @extends('layouts.app')
 @section('title', 'Вход')
+@section('header')
+    @parent
+    @section('nav')
+        <a href="http:/khpk.ru">Основной сайт</a>
+        <a href="#info" class="anchor">Прием</a>
+        <a href="#contacts" class="anchor">Контакты</a>
+    @endsection
+    <a href="/request" class="button">Подать заявку</a>
+@endsection
 @section('content')
-<section>
+<section id="login">
     <div class="block_form">
     <h1>Авторизация</h1>
     <form method="post" action="/login/enrolle" class="form_block">
@@ -15,15 +24,15 @@
     </form>
     </div>
     <div class="block_form">
-        <h2>Еще не регистрировались?</h2>
-    <form action="/request" method="post" class="form_block">
-        @csrf
-        <div class="block_input">
-            <input type="text" placeholder="Ваше имя" name="name">
-            <input type="text" placeholder="Ваша фамилия" name="surname">
-            <input type="submit" value="Продолжить">
-        </div>
-    </form>
+        <h1 class="gradient">У вас еще<br>нет аккаунта?</h1>
+        <form action="/request" method="post" class="form_block">
+            @csrf
+            <div class="block_input">
+                <input type="text" placeholder="Ваше имя" name="name">
+                <input type="text" placeholder="Ваша фамилия" name="surname">
+                <input type="submit" value="Продолжить">
+            </div>
+        </form>
     </div>
     @include('layouts.message', [
         'title' => 'Ошибка'
