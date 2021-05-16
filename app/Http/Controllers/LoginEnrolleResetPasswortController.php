@@ -42,7 +42,7 @@ class LoginEnrolleResetPasswortController extends Controller
 
     public function reset(Request $request, $token) {
         $enrolle = $this->validToken($token);
-        if ($enrolle) {
+        if ($enrolle || Auth::check()) {
             if ($request->password == $request->password_apply) {
                 $enrolle->password = Hash::make($request->password);
                 $enrolle->save();

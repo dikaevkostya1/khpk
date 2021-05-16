@@ -69,6 +69,11 @@
             flex-grow: 1;
             margin-left: $padding-low;
         }
+
+        & + .block_request {
+            margin-top: $padding-low;
+        }
+
     }
 
     .footnote {
@@ -80,7 +85,7 @@
             margin-left: $padding-low;
 
             .title {
-                margin-bottom: 1rem;
+                margin-bottom: 0.5rem;
             }
         }
 
@@ -88,6 +93,10 @@
             height: 35px;
             fill: $accent;
             align-self: flex-start;
+        }
+
+        & + .block_request {
+            margin-top: $padding-low;
         }
         
     }

@@ -77,15 +77,24 @@ $transition-object: 0.3s cubic-bezier(0.86, 0, 0.07, 1);
     cursor: pointer;
     font-weight: 500;
     font-family: Rubik-medium;
-    transition: box-shadow 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
 
     &:hover {
         box-shadow: none;
+        background: $accent-opacity;
+        color: $accent !important;
+
+        svg {
+            fill: $accent;
+            transition: fill 0.3s ease-in-out;
+        }
     }
 
     &:disabled {
 
         &:hover {
+            background: $accent;
+            color: #fff !important;
             box-shadow: $box-shadow-accent;
         }
     }
@@ -101,10 +110,17 @@ $transition-object: 0.3s cubic-bezier(0.86, 0, 0.07, 1);
     cursor: pointer;
     font-weight: 500;
     font-family: Rubik-medium;
-    transition: box-shadow 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
 
     &:hover {
         box-shadow: none;
+        background: $accent-opacity;
+        color: $accent !important;
+
+        svg {
+            fill: $accent;
+            transition: fill 0.3s ease-in-out;
+        }
     }
 }
 @mixin gradient {

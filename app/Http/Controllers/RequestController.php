@@ -22,25 +22,29 @@ use Illuminate\Validation\Rule;
 
 class RequestController extends Controller
 {
+
+    protected $requests;
+
     public function __construct() {
         $this->specialties = SpecialtiesHelpers::get();
-        $this->deadline = DeadlineHelpers::get();
+        $this->deadline = DeadlineHelpers::get_regis();
+        $this->requests = Requests::select('speciality_id')->where('enrolle_id', auth()->id())->pluck('speciality_id');
     }
 
     public function index(Request $request) {
         if (Auth::check()) {
             if (Auth::user()->email_verified == true) {
-                $requests = Requests::select('speciality_id')->where('enrolle_id', Auth::user()->id)->pluck('speciality_id');
                 $data = [
                     'specialties' => $this->specialties,
                     'institutions' => Institutions::all(), 
                     'request_stage' => 3,
                     'deadline' => $this->deadline,
-                    'requests' => $requests->toArray(),
+                    'requests' => $this->requests,
                     'deadline_info' => DeadlineHelpers::get_info(),
                 ];
             }
             else $data = [
+                'requests' => $this->requests,
                 'request_stage' => 2
             ];
         }
@@ -121,6 +125,7 @@ class RequestController extends Controller
                     if (Auth::loginUsingId($enrolle->id)) {
                         return response()->json([
                             'view' => view('request', [
+                                'requests' => $this->requests,
                                 'request_stage' => 2
                             ])->render()
                         ], 200);
@@ -134,7 +139,7 @@ class RequestController extends Controller
             }
             catch (Throwable $e) {
                 return response()->json([
-                    'errors' => ['Произошла ошибка на сервере']
+                    'errors' => ['Произошла ошибка на сервере'.$e]
                 ], 500);
             }
         }
@@ -146,11 +151,16 @@ class RequestController extends Controller
             if (Auth::user()->email_verified_code == $code) {
                 Auth::user()->email_verified = true;
                 Auth::user()->save();
-                return response()->json([
+                if (count($this->requests) > 0) return response()->json([
+                    'redirect' => true,
+                    'redirect_url' => route('rating')
+                ]);
+                else return response()->json([
                     'view' => view('request', [
                         'specialties' => $this->specialties,
                         'request_stage' => 3,
-                        'deadline' => $this->deadline
+                        'deadline' => $this->deadline,
+                        'requests' => $this->requests,
                     ])->render()
                 ], 200);
                 
@@ -211,9 +221,5 @@ class RequestController extends Controller
                 ], 500);
             }
         }
-    }
-
-    public function download($doc) {
-        return Storage::download('/documents/request/'.$doc);
     }
 }

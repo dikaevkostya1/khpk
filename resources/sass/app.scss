@@ -18,6 +18,10 @@
     src: url('/font/rubik-bold.ttf');
 }
 
+* {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
 body {
     @include flex-column;
     background: $background-color;
@@ -75,6 +79,7 @@ span {
         background: $accent-opacity;
         border-radius: 14px;
         color: $accent;
+        font-size: 14px;
     }
 
     &.accent {
@@ -99,18 +104,10 @@ a {
         position: relative;
         overflow: hidden;
         text-align: center;
-
-        &:hover {
-            color: #fff;
-        }
     }
 
     &.button_small {
         @include button_small;
-
-        &:hover {
-            color: #fff;
-        }
     }
 
     &:hover {
@@ -179,6 +176,8 @@ textarea {
     }
 
     &.active {
+        border: $border-accent;
+        box-shadow: $box-shadow-accent;
         &::before {
             background-image: url('/storage/img/icons/chevron-up.svg');
         }
@@ -389,6 +388,18 @@ main {
     
             .title {
                 @include flex-center;
+
+                .count {
+                    @include flex-center;
+                    height: 50px;
+                    width: 50px;
+                    border-radius: 100%;
+                    background: $accent-opacity;
+                    color: $accent;
+                    font-size: 25px;
+                    padding: 10px;
+                    margin-left: $padding-low;
+                }
             }
 
             .switches {
@@ -399,6 +410,7 @@ main {
                 }
             }
         }
+
     }
 
     section + section {
@@ -791,16 +803,11 @@ main {
 
                 .qualifications_block {
                     display: none;
-                    margin-top: $padding-form;
-                    
-                    & + .qualifications_block {
-                        border-top: 1px solid rgba($color: $color, $alpha: .5);
-                        padding-top: $padding-form;
-                    }
 
                     .qualifications {
                         @include flex-column;
                         align-self: stretch;
+                        margin-top: $padding-form;
 
                         .info {
                             @include flex-column;
@@ -820,6 +827,11 @@ main {
                                 max-width: 210px;
                             }
 
+                        }
+
+                        & + .qualifications {
+                            border-top: 1px solid rgba($color: $color, $alpha: .5);
+                            padding-top: $padding-form;
                         }
 
                     }

@@ -5,8 +5,8 @@ $(function() {
             $(this).val('');
         }
         else {
-            $('form .button_download').css('display', 'none');
-            $('form .apply_block').css('display', 'flex').hide().fadeIn(200);
+            $(this).closest('.button_download').css('display', 'none');
+            $(this).closest('.button_download').siblings('.apply_block').css('display', 'flex').hide().fadeIn(200);
         }
     });
 });

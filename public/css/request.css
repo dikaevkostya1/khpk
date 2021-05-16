@@ -64,6 +64,10 @@
   margin-left: 35px;
 }
 
+#request .block_request + .block_request {
+  margin-top: 35px;
+}
+
 #request .footnote {
   margin-top: 35px;
   display: flex;
@@ -75,13 +79,17 @@
 }
 
 #request .footnote .text .title {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 #request .footnote .icon {
   height: 35px;
   fill: #1e91ff;
   align-self: flex-start;
+}
+
+#request .footnote + .block_request {
+  margin-top: 35px;
 }
 
 #request .select_ok {

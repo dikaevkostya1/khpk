@@ -10,6 +10,8 @@ class Commission extends Model
 
     protected $guarded = [];
 
+    public $timestamps = false;
+
     protected $hidden = [
         'institution_id'
     ];

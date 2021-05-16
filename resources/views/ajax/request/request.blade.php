@@ -77,8 +77,8 @@
                                     <span class="name">{{ $specialty->name }}</span>
                                     <div class="chevron"></div>
                                 </div>
-                                @foreach ($specialty->qualifications as $qualification)
                                 <div class="qualifications_block">
+                                    @foreach ($specialty->qualifications as $qualification)
                                     <div class="qualifications">
                                         <div class="info">
                                             <span class="accent"><b>{{ $qualification->qualification }}</b></span>
@@ -92,15 +92,15 @@
                                                 <span class="sign"><b>Количество мест</b></span>
                                                 <span>{{ $qualification->number_seats }} мест</span>
                                             </div>
-                                            @if(in_array($qualification->id, $requests)) 
+                                            @if(in_array($qualification->id, $requests->toArray())) 
                                             @svg('/app/public/img/icons/ok-circle.svg', 'select_ok')
                                             @else
                                             <div class="select_button" data-value="{{ $qualification->id }}"></div>
                                             @endif
                                         </div>
                                     </div>
+                                    @endforeach
                                 </div>
-                                @endforeach
                             </div>
                             @endforeach
                             @else
@@ -129,7 +129,7 @@
             <div class="block_info block_column_content">
                 <div class="block">
                     <div class="title">
-                        <span class="large"><b>Прием на @if(request('format', 1) == 1) очное @else заочное @endif еще не начался</b></span>
+                        <span class="large"><b>Сроки приема на @if(request('format', 1) == 1) очное @else заочное @endif</b></span>
                     </div>
                     <div class="date_time_block">
                         <div class="block_circle from">
@@ -146,13 +146,16 @@
                             <span class="sign">{{ $deadline_info->ending_sign }}</span>
                         </div>
                     </div>
+                    <div class="status_block">
+                        <span>Статус приема</span>
+                        <span class="status"><b>{{ $deadline_info->status }}</b></span>
+                    </div>
                 </div>
             </div>
         </div>
         @endif
     </form>
 </section>
-<div id="loader"></div>
 @include('layouts.message', [
     'title' => 'Ошибка формы'
 ])

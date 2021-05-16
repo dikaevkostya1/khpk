@@ -16,5 +16,17 @@ class StatusesRequestSeeder extends Seeder
             'code' => 1,
             'name' => 'Рассматривается'
         ]);
+        DB::table('statuses_request')->insert([
+            'code' => 2,
+            'name' => 'Отклонена'
+        ]);
+        DB::table('statuses_request')->insert([
+            'code' => 3,
+            'name' => 'Принята'
+        ]);
+        DB::table('statuses_request')->insert([
+            'code' => 4,
+            'name' => 'Вы зачислены'
+        ]);
     }
 }

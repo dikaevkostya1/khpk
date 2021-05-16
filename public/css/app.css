@@ -268,6 +268,10 @@ footer section .social_block .social + .social {
   src: url("/font/rubik-bold.ttf");
 }
 
+* {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
 body {
   display: flex;
   flex-direction: column;
@@ -335,6 +339,7 @@ span.status {
   background: rgba(30, 145, 255, 0.2);
   border-radius: 14px;
   color: #1e91ff;
+  font-size: 14px;
 }
 
 span.accent {
@@ -363,7 +368,7 @@ a.button {
   cursor: pointer;
   font-weight: 500;
   font-family: Rubik-medium;
-  transition: box-shadow 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   position: relative;
   overflow: hidden;
   text-align: center;
@@ -371,14 +376,19 @@ a.button {
 
 a.button:hover {
   box-shadow: none;
+  background: rgba(30, 145, 255, 0.2);
+  color: #1e91ff !important;
+}
+
+a.button:hover svg {
+  fill: #1e91ff;
+  transition: fill 0.3s ease-in-out;
 }
 
 a.button:disabled:hover {
+  background: #1e91ff;
+  color: #fff !important;
   box-shadow: 4px 4px 12px rgba(15, 75, 133, 0.3), -4px -4px 12px #C9E5FF;
-}
-
-a.button:hover {
-  color: #fff;
 }
 
 a.button_small {
@@ -392,15 +402,18 @@ a.button_small {
   cursor: pointer;
   font-weight: 500;
   font-family: Rubik-medium;
-  transition: box-shadow 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 a.button_small:hover {
   box-shadow: none;
+  background: rgba(30, 145, 255, 0.2);
+  color: #1e91ff !important;
 }
 
-a.button_small:hover {
-  color: #fff;
+a.button_small:hover svg {
+  fill: #1e91ff;
+  transition: fill 0.3s ease-in-out;
 }
 
 a:hover {
@@ -507,6 +520,11 @@ textarea::placeholder:focus {
   background-image: url("/storage/img/icons/chevron-down.svg");
 }
 
+.select.active {
+  border: 1px solid #1e91ff;
+  box-shadow: 4px 4px 12px rgba(15, 75, 133, 0.3), -4px -4px 12px #C9E5FF;
+}
+
 .select.active::before {
   background-image: url("/storage/img/icons/chevron-up.svg");
 }
@@ -582,15 +600,24 @@ input[type=submit] {
   cursor: pointer;
   font-weight: 500;
   font-family: Rubik-medium;
-  transition: box-shadow 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   -webkit-appearance: none;
 }
 
 input[type=submit]:hover {
   box-shadow: none;
+  background: rgba(30, 145, 255, 0.2);
+  color: #1e91ff !important;
+}
+
+input[type=submit]:hover svg {
+  fill: #1e91ff;
+  transition: fill 0.3s ease-in-out;
 }
 
 input[type=submit]:disabled:hover {
+  background: #1e91ff;
+  color: #fff !important;
   box-shadow: 4px 4px 12px rgba(15, 75, 133, 0.3), -4px -4px 12px #C9E5FF;
 }
 
@@ -605,11 +632,18 @@ input[type=submit].button_small {
   cursor: pointer;
   font-weight: 500;
   font-family: Rubik-medium;
-  transition: box-shadow 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 input[type=submit].button_small:hover {
   box-shadow: none;
+  background: rgba(30, 145, 255, 0.2);
+  color: #1e91ff !important;
+}
+
+input[type=submit].button_small:hover svg {
+  fill: #1e91ff;
+  transition: fill 0.3s ease-in-out;
 }
 
 input[type=submit]:disabled {
@@ -779,6 +813,20 @@ main section .title_block .title {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+main section .title_block .title .count {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 50px;
+  border-radius: 100%;
+  background: rgba(30, 145, 255, 0.2);
+  color: #1e91ff;
+  font-size: 25px;
+  padding: 10px;
+  margin-left: 35px;
 }
 
 main section .title_block .switches {
@@ -1242,18 +1290,13 @@ main section + section {
 
 .specialties .block_form .list .specialty_qualifications .qualifications_block {
   display: none;
-  margin-top: 20px;
-}
-
-.specialties .block_form .list .specialty_qualifications .qualifications_block + .qualifications_block {
-  border-top: 1px solid rgba(62, 62, 62, 0.5);
-  padding-top: 20px;
 }
 
 .specialties .block_form .list .specialty_qualifications .qualifications_block .qualifications {
   display: flex;
   flex-direction: column;
   align-self: stretch;
+  margin-top: 20px;
 }
 
 .specialties .block_form .list .specialty_qualifications .qualifications_block .qualifications .info {
@@ -1276,6 +1319,11 @@ main section + section {
 
 .specialties .block_form .list .specialty_qualifications .qualifications_block .qualifications .combine .info {
   max-width: 210px;
+}
+
+.specialties .block_form .list .specialty_qualifications .qualifications_block .qualifications + .qualifications {
+  border-top: 1px solid rgba(62, 62, 62, 0.5);
+  padding-top: 20px;
 }
 
 .specialties .block_form .list .specialty_qualifications.active .specialty .chevron {
@@ -1523,12 +1571,19 @@ main section + section {
   cursor: pointer;
   font-weight: 500;
   font-family: Rubik-medium;
-  transition: box-shadow 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   margin-right: 30px;
 }
 
 #logo .button_back:hover {
   box-shadow: none;
+  background: rgba(30, 145, 255, 0.2);
+  color: #1e91ff !important;
+}
+
+#logo .button_back:hover svg {
+  fill: #1e91ff;
+  transition: fill 0.3s ease-in-out;
 }
 
 #logo .button_back:hover {

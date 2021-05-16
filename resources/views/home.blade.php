@@ -82,8 +82,8 @@
                         </div>
                         <div class="chevron"></div>
                     </div>
-                    @foreach ($specialty->qualifications as $qualification)
                     <div class="qualifications_block">
+                    @foreach ($specialty->qualifications as $qualification)
                         <div class="qualifications">
                             <div class="info">
                                 <span class="accent"><b>{{ $qualification->qualification }}</b></span>
@@ -100,8 +100,8 @@
                                 <span></span>
                             </div>
                         </div>
-                    </div>
                     @endforeach
+                    </div>
                 </div>
                 @endforeach
             </div>
@@ -325,5 +325,4 @@
         'title' => 'Форма обратной связи'
     ])
 </section>
-<div id="loader"></div>
 @endsection

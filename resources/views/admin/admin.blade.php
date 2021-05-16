@@ -1,6 +1,6 @@
 @extends('layouts.admin.app')
 @section('header')
-
+    @include('layouts.admin.header')
 @endsection
 @section('content') 
 <section id="info">
@@ -38,6 +38,7 @@
                 <h1>Заявки</h1>
                 <span class="large">Подано заявок <span class="accent">{{ count($requests) }}</span></span>
                 <span class="large">Не рассмотрено <span class="accent">{{ count($requests_new) }}</span></span>
+                <a class="button">Рассмотреть</a>
             </div>
         </div>
     </div>
@@ -45,7 +46,7 @@
         <div class="block_info block_column_content">
             <div class="block commission">
                 <div class="title">
-                    <span class="large"><b>Режим работы<br>приемной комиссии</b></span>
+                    <span class="large"><b>Режим работы</b></span>
                     <span class="status"><b>{{ $commission->status }}</b></span>
                 </div>
                 <div class="date_time_block">

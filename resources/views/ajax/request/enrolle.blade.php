@@ -6,7 +6,7 @@
         <a href="/#contacts">Контакты</a>
     @endsection
     @section('content_header')
-    @if (count($deadline_regis) > 0)
+    @if ($deadline_regis)
     <div class="request_stage">
         <div class="circle active">1</div>
         <div class="line @if($request_stage == 1) active @elseif($request_stage > 1) full_active @endif"></div>
@@ -21,7 +21,7 @@
     <form method="post" class="block_column">
         @csrf
         <div class="title_block">
-            @if (count($deadline_regis) > 0)
+            @if ($deadline_regis)
             <div class="title">
                 <div class="stage"><b>{{ $request_stage }} этап</b></div>
                 <h1 class="gradient">Регистрация</h1>
@@ -32,7 +32,7 @@
             <a href="/" class="button">На главную</a>
             @endif
         </div>
-        @if (count($deadline_regis) > 0)
+        @if ($deadline_regis)
         <div class="block_request">
             <div class="form_block">
                 <span class="title">Основные данные</span>
@@ -104,7 +104,6 @@
         @endif
     </form>
 </section>
-<div id="loader"></div>
 @include('layouts.message', [
     'title' => 'Ошибка формы'
 ])

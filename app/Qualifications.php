@@ -14,4 +14,5 @@ class Qualifications extends Model
     {
         return $this->belongsTo('App\Specialties','speciality_id','id');
     }
+
 }

@@ -18,20 +18,6 @@ header .user span {
   margin-right: 1rem;
 }
 
-#rating .title_block .title .count {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 50px;
-  width: 50px;
-  border-radius: 100%;
-  background: rgba(30, 145, 255, 0.2);
-  color: #1e91ff;
-  font-size: 25px;
-  padding: 10px;
-  margin-left: 35px;
-}
-
 #rating .request_block {
   display: flex;
   flex-direction: column;

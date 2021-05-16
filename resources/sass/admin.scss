@@ -5,15 +5,17 @@ body {
     @include flex-between;
     flex-direction: row;
     align-items: stretch;
-    height: 100vh;
 }
 
 main {
     padding: $padding;
+    padding-left: 0;
 
     section {
-        width: 1000px;
         align-items: flex-start;
+        width: 100%;
+        max-width: $width-section;
+        min-height: 600px;
     }
 }
 
@@ -21,28 +23,71 @@ main {
 .header {
     @include flex-center;
     flex-direction: column;
+    align-self: flex-start;
     padding: $padding;
     width: 400px;
-    height: 100vh;
+    min-height: 100vh;
     flex-shrink: 0;
 
     .block {
         @include flex-column;
+        justify-content: space-between;
         padding: $padding-form;
         flex-grow: 1;
         width: 100%;
         border-radius: $border-radius;
         @include neumorphism;
 
-        nav {
-            display: flex;
-            align-items: center;
+        .admin {
+            @include flex-center;
+            border: $border-accent-opacity;
+            margin-bottom: $padding-form;
 
-            a + a { 
-                margin-left: 30px;
+            svg {
+                transition: fill 0.3s ease-in-out;
+            }
+
+            &:hover {
+                svg {
+                    fill: $accent;
+                }
+                
+            }
+
+            .icon {
+                height: 15px;
+                width: 15px;
+                margin-right: 20px;
             }
         }
+
+        nav {
+            @include flex-column;         
+
+            a + a { 
+                margin-top: $padding-form;
+            }
+
+            & + a {
+                margin-top: $padding-form;
+            }
+        }
+
+        a {
+            padding: 10px 20px;
+            border-radius: 15px;
+            transition: all 0.3s ease-in-out;
+
+            &:hover {
+                background: $accent-opacity;
+                color: $accent;
+            }
+        }   
     }
+}
+
+.rating {
+
 }
 
 #login {
@@ -56,13 +101,22 @@ main {
 
 #info {
 
+    .info + .info {
+        margin-left: $padding-low;
+    }
+
     .block {
         @include flex-column;
         border-radius: $border-radius-low;
         @include neumorphism;
         padding: $padding;
         flex-grow: 1;
+
         & + .block {
+            margin-top: $padding-low;
+        }
+
+        form {
             margin-top: $padding-low;
         }
     }
@@ -71,6 +125,38 @@ main {
         span {
             margin-top: $padding-form;
         }
+
+        .button {
+            margin-top: $padding-form;
+        }
     }
 
+}
+
+#request {
+
+    .rating {
+        margin-top: $padding-low;
+
+        .input_row {
+            @include flex-center;
+            align-self: stretch;
+    
+            & + .input_row {
+                margin-top: $padding-form;
+            }
+
+            .subject {
+                flex-grow: 1;
+            }
+    
+            .eval {
+                width: 50px;
+                min-width: 0;
+                margin-top: 0;
+                caret-color: transparent;
+                margin-left: $padding-form;
+            }
+        }
+    }
 }

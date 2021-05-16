@@ -20,7 +20,6 @@
     <section id="rating">
         <div class="block_column">
         <div class="title_block">
-            
             <div class="title">
                 <h1 class="gradient">Ваши заявки</h1>
                 <div class="count"><b>{{ count($requests) }}</b></div>

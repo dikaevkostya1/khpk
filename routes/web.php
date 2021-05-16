@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 // 
 Route::view('/support_browser', 'support_browser'); 
 
+Route::get('/download/request/{doc}', 'DownloadController@request');
+
 // главная страница
 Route::get('/', 'HomeController@index')->name('home'); 
 Route::post('/ajax/feedback', 'HomeController@feedback');
@@ -23,7 +25,6 @@ Route::post('/ajax/feedback', 'HomeController@feedback');
 
 // страница отправки заявки
 Route::match(['get', 'post'], '/request', 'RequestController@index')->name('request');
-Route::get('/download/request/{doc}', 'RequestController@download');
 Route::post('/ajax/request/push', 'RequestController@push');
 Route::prefix('request/verify')->group(function () {
     Route::view('/change', 'change_mail')->middleware('auth'); 
@@ -59,6 +60,10 @@ Route::get('/logout/admin', 'LoginAdminController@logout');
 Route::prefix('admin')->group(function () {
     Route::get('', 'AdminPanelController@index')->name('admin');
     Route::post('/deadline', 'AdminPanelController@deadline');
-    Route::get('/export/request', 'AdminPanelController@export_request');
+    Route::get('/export/request{id}', 'AdminPanelController@export_request');
+    Route::get('/request', 'AdminPanelController@enrolle');
+    Route::get('/info', 'AdminPanelController@info');
+    Route::post('/info/deadline', 'AdminPanelController@deadline');
+    Route::post('/ajax/commission', 'AdminPanelController@commission');
 });
 

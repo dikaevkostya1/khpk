@@ -5,16 +5,18 @@ body {
   align-items: center;
   flex-direction: row;
   align-items: stretch;
-  height: 100vh;
 }
 
 main {
   padding: 50px;
+  padding-left: 0;
 }
 
 main section {
-  width: 1000px;
   align-items: flex-start;
+  width: 100%;
+  max-width: 1180px;
+  min-height: 600px;
 }
 
 .header {
@@ -22,15 +24,17 @@ main section {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  align-self: flex-start;
   padding: 50px;
   width: 400px;
-  height: 100vh;
+  min-height: 100vh;
   flex-shrink: 0;
 }
 
 .header .block {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   padding: 20px;
   flex-grow: 1;
   width: 100%;
@@ -40,13 +44,50 @@ main section {
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+.header .block .admin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgba(30, 145, 255, 0.2);
+  margin-bottom: 20px;
+}
+
+.header .block .admin svg {
+  transition: fill 0.3s ease-in-out;
+}
+
+.header .block .admin:hover svg {
+  fill: #1e91ff;
+}
+
+.header .block .admin .icon {
+  height: 15px;
+  width: 15px;
+  margin-right: 20px;
+}
+
 .header .block nav {
   display: flex;
-  align-items: center;
+  flex-direction: column;
 }
 
 .header .block nav a + a {
-  margin-left: 30px;
+  margin-top: 20px;
+}
+
+.header .block nav + a {
+  margin-top: 20px;
+}
+
+.header .block a {
+  padding: 10px 20px;
+  border-radius: 15px;
+  transition: all 0.3s ease-in-out;
+}
+
+.header .block a:hover {
+  background: rgba(30, 145, 255, 0.2);
+  color: #1e91ff;
 }
 
 #login {
@@ -56,6 +97,10 @@ main section {
 
 #login .form_block {
   align-self: center;
+}
+
+#info .info + .info {
+  margin-left: 35px;
 }
 
 #info .block {
@@ -73,7 +118,42 @@ main section {
   margin-top: 35px;
 }
 
+#info .block form {
+  margin-top: 35px;
+}
+
 #info .requests span {
   margin-top: 20px;
+}
+
+#info .requests .button {
+  margin-top: 20px;
+}
+
+#request .rating {
+  margin-top: 35px;
+}
+
+#request .rating .input_row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+}
+
+#request .rating .input_row + .input_row {
+  margin-top: 20px;
+}
+
+#request .rating .input_row .subject {
+  flex-grow: 1;
+}
+
+#request .rating .input_row .eval {
+  width: 50px;
+  min-width: 0;
+  margin-top: 0;
+  caret-color: transparent;
+  margin-left: 20px;
 }
 

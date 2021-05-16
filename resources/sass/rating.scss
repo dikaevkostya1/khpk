@@ -20,22 +20,6 @@ header {
 }
 
 #rating {
-    .title_block {
-
-        .title {
-            .count {
-                @include flex-center;
-                height: 50px;
-                width: 50px;
-                border-radius: 100%;
-                background: $accent-opacity;
-                color: $accent;
-                font-size: 25px;
-                padding: 10px;
-                margin-left: $padding-low;
-            }
-        }
-    }
 
     .request_block {
         @include flex-column;

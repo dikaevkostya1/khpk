@@ -4,6 +4,7 @@
     <a href="/logout/enrolle" class="button">Выйти</a>
     @endsection
     @section('content_header')
+    @if(count($requests) == 0)
     <div class="request_stage">
         <div class="circle active">1</div>
         <div class="line @if($request_stage == 1) active @elseif($request_stage > 1) full_active @endif"></div>
@@ -11,6 +12,7 @@
         <div class="line @if($request_stage == 2) active @elseif($request_stage > 2) full_active @endif"></div>
         <div class="circle @if($request_stage == 3) active @endif">3</div>
     </div>
+    @endif
     @endsection
 @endsection
 <section id="request">
@@ -18,7 +20,7 @@
         @csrf
         <div class="title_block">
             <div class="title">
-                <div class="stage"><b>{{ $request_stage }} этап</b></div>
+                @if(count($requests) == 0)<div class="stage"><b>{{ $request_stage }} этап</b></div>@endif
                 <h1 class="gradient">Подтверждение регистрации</h1>
             </div>
             <input type="submit" value="Продолжить" disabled>
@@ -42,7 +44,6 @@
         </div>
     </form>
 </section>
-<div id="loader"></div>
 @include('layouts.message', [
     'title' => 'Ошибка формы'
 ])

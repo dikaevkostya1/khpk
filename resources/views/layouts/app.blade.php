@@ -33,6 +33,7 @@
             <a class="button">Хорошо</a>
         </div>
     </div>
+    <div id="loader"></div>
     @stack('scripts_after')
 </body>
 </html>

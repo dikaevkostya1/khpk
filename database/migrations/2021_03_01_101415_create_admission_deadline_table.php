@@ -15,8 +15,8 @@ class CreateAdmissionDeadlineTable extends Migration
     {
         Schema::create('admission_deadline', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('start');
-            $table->dateTime('ending');
+            $table->date('start');
+            $table->date('ending');
             $table->integer('format_id')->unsigned();
             $table->integer('institution_id')->unsigned();
             $table->year('year');
